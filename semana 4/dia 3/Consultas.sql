@@ -2,8 +2,7 @@ create database bdprueba;
 
 use bdprueba;
 
-# create schema bdprueba; #solo en mysql
-
+# create schema bdprueba; #solo en mysql;
 
 create table t_categoria(
 	# Solo puede haber una columna con auto_increment,
@@ -34,3 +33,8 @@ insert into t_producto (producto_nombre, producto_precio, producto_cantidad, cat
 
 select * from t_categoria;
 select * from t_producto;
+
+select * from t_producto inner join t_categoria on t_producto.categoria_id = t_categoria.categoria_id;
+
+
+
