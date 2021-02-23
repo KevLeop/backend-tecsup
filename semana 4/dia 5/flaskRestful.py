@@ -1,11 +1,19 @@
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
-
+from flask_cors import CORS
 app = Flask(__name__)
 productos =[]
 # 1. Crear instancia de mi clase Api para poder declarar las turas 
 # de mis Resource
 api =Api(app)
+CORS(app,
+  # resources={r"/producto/*":{"origins":"*"}, "/almacen":{"origins":"mipagina.com"}})
+  # origins=['mipagina.com','otrapagina.com']
+  methods=['POST','PUT','DELETE','GET']
+
+
+# CORS(app,resources={"*":{"origins":"*"}})
+
 
 
 @app.route('/',methods=['GET','POST'])
