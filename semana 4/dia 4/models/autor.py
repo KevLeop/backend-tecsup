@@ -45,6 +45,17 @@ class AutorModel(bd.Model):
     bd.session.commit()
 
 
+  def json(self):
+      return {
+        'autor_id': self.autorId,
+        'autor_nombre': self.autorNombre
+      }
+  
+  def delete(self):
+    # con el delete se hace la eliminacion temporal de la BD
+    bd.session.delete(self)
+    bd.session.commit() # 
+
 
 
   

@@ -10,3 +10,19 @@ class SedeLibroModel(bd.Model):
                       auto_increment=True, unique=True)
   sede = Column(ForeignKey('t_sede.sede_id'), name ='sede_id',type_=types.Integer)
   libro = Column(ForeignKey('t_libro.libro_id'), name="libro_id", type_=types.Integer)
+
+
+  # def __init__(self,id,sede,libro):
+  #   self.sedeLibroId
+
+
+  def save(self):
+    bd.session.add(self)
+    bd.session.commit()
+
+  def json(self):
+    return {
+      'sede_libro_id': self.sedeLibroId,
+      'sede': self.sede,
+      'libro': self.libro
+    }

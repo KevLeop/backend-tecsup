@@ -26,3 +26,25 @@ class LibroModel(bd.Model):
 
   sedes = relationship('SedeLibroModel', backref='libroSede')
   
+  def __init__(self, nombre, cantidad, edicion, autor,categoria):
+    self.libroNombre=nombre
+    self.libroCantidad=cantidad
+    self.libroEdicion=edicion
+    self.autor = autor,
+    self.categoria = categoria
+
+  def save(self):
+    bd.session.add(self)
+    bd.session.commit()
+
+  def json(self):
+    return {
+      'libro_id': self.libroId,
+      'libro_nombre': self.libroNombre,
+      'libro_cant': self.libroCant,
+      'autor': self.autor,
+      'categoria': self.categoria
+    }
+
+
+
