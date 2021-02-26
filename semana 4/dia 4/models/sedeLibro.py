@@ -12,8 +12,9 @@ class SedeLibroModel(bd.Model):
   libro = Column(ForeignKey('t_libro.libro_id'), name="libro_id", type_=types.Integer)
 
 
-  # def __init__(self,id,sede,libro):
-  #   self.sedeLibroId
+  def __init__(self,sede_id,libro_id):  
+    self.sede = sede_id,
+    self.libro=libro_id
 
 
   def save(self):

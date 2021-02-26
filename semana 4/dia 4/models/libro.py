@@ -28,7 +28,7 @@ class LibroModel(bd.Model):
   
   def __init__(self, nombre, cantidad, edicion, autor,categoria):
     self.libroNombre=nombre
-    self.libroCantidad=cantidad
+    self.libroCant=cantidad
     self.libroEdicion=edicion
     self.autor = autor,
     self.categoria = categoria

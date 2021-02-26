@@ -1,3 +1,4 @@
+from models.sedeLibro import SedeLibroModel
 from flask_restful import Resource, reqparse
 from models.libro import LibroModel
 
@@ -67,3 +68,34 @@ class LibrosController(Resource):
       'content': resultado,
       'message': None
     }
+
+class RegistroLibroSedeController(Resource):
+  def post(self):
+    serializerPost = reqparse.RequestParser(bundle_errors=True)
+    serializerPost.add_argument(
+      'libro_id',
+      type=int,
+      required=True,
+      help="Falta libro_id",
+      location='json'
+    )
+
+    serializerPost.add_argument(
+      'sedes',
+      type=list,
+      required=True,
+      help='falta sedes',
+      location='json'
+    )
+
+    data=serializerPost.parse_args()
+    for sede in data['sedes']:
+      nuevoSedeLibro = SedeLibroModel(sede['sede_id'],data['libro_id'])
+      nuevoSedeLibro.save()
+
+    return {
+      'success':True,
+      'content': None,
+      'message': 'Se vinculo correctamente libro con las sedes'
+    },201
+

@@ -1,3 +1,4 @@
+from models.libro import LibroModel
 from flask_restful import Resource, reqparse
 from models.sede import SedeModel
 
@@ -70,7 +71,12 @@ class LibroSedeController(Resource):
       libro = sedeLibro.libroSede.json()
       # libros.append(libro)
       libro['autor']= sedeLibro.libroSede.autorLibro.json()
+      libro['categoria'] = sedeLibro.libroSede.categoriaLibro.json()
+      # del libro['categoria']['categoria_id']
+      del libro['autor']['autor_id']
+
       libros.append(libro)
+
 
     resultado = sede.json()
     resultado['libros']=libros
@@ -80,6 +86,45 @@ class LibroSedeController(Resource):
       'content': resultado,
       'message': None
     }
+
+class LibroCategoriaSedeController(Resource):
+
+
+  def get(self):
+    serializer.remove_argument('sede_latitud')
+    serializer.remove_argument('sede_ubicacion')
+    serializer.remove_argument('sede_longitud')
+    serializer.add_argument(
+      'categoria',
+      type=int,
+      required=True,
+      help='Falta la categoria',
+      location='args'
+    )
+    
+    serializer.add_argument(
+      'sede',
+      type=int,
+      required=True,
+      help='Falta la sede',
+      location='args'
+    )
+    data = serializer.parse_args()
+    sede =SedeModel.query.filter_by(sedeId=data['sede']).first()
+    sedeLibros = sede.libros
+    libros=[]
+    
+    for sedeLibro in sedeLibros:
+      print(sedeLibro.libroSede.categoria)
+      if (sedeLibro.libroSede.categoria == data['categoria']):
+        libros.append(sedeLibro.libroSede.json())
+      
+      
+    return {
+      'success': True,
+      'content': libros
+    }
+
 
 
 

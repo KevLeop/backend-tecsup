@@ -4,18 +4,21 @@ from flask_restful import Api
 from config.base_datos import bd
 from controllers.autor import AutoresController, AutorController
 from controllers.categoria import CategoriaController
-from controllers.libro import LibrosController
-from controllers.sede import LibroSedeController, SedesController
+from controllers.libro import LibrosController,RegistroLibroSedeController
+from controllers.sede import (LibroSedeController, SedesController, 
+                              LibroCategoriaSedeController
+                              )
 from models.libro import LibroModel
 # from models.sede import SedeModel
-from models.sedeLibro import SedeLibroModel
+# from models.sedeLibro import SedeLibroModel
+from flask_cors import CORS
 
 app=Flask(__name__)
 
 print(app.config)
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost:3306/flasklibreria'
 api = Api(app)
-
+CORS(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 
 bd.init_app(app)
@@ -53,6 +56,8 @@ api.add_resource(CategoriaController, '/categorias', '/categoria')
 api.add_resource(LibrosController, '/libros')
 api.add_resource(SedesController, '/sedes', '/sede')
 api.add_resource(LibroSedeController, '/sedeLibros/<int:id_sede>')
+api.add_resource(LibroCategoriaSedeController,'/busquedaLibroSedeCat')
+api.add_resource(RegistroLibroSedeController,'/registrarSedesLibro')
 if __name__ == '__main__':
   app.run(debug=True)
 
