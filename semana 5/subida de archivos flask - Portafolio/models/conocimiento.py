@@ -58,7 +58,7 @@ class ConocimientoModel(bd.Model):
     nullable=False
     ),
 
-  def __init__(self, titulo, puntuacion, imagen1,imagen2, descripcion,usuario):
+  def __init__(self, titulo, puntuacion, imagen1,imagen2, descripcion,categoria,usuario):
     self.conocimientoTitulo=titulo
     self.conocimientoPuntuacion=puntuacion
     self.conocimientoImagenTN=imagen1
