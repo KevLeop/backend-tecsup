@@ -3,6 +3,7 @@ from config.base_datos import bd
 from sqlalchemy import Column, types
 from sqlalchemy.schema import ForeignKey
 
+
 class ConocimientoModel(bd.Model):
   __tablename__ = 't_conocimiento'
   conocimientoId  = Column(
@@ -42,21 +43,19 @@ class ConocimientoModel(bd.Model):
     nullable=False
   )
 
-  categoria= ForeignKey(
-    't_categoria.cat_id',
+  categoria= Column(
+    ForeignKey('t_categoria.cat_id'),
     name='cat_id',
     type_=types.Integer,
     nullable=False
-    ),
+  )
 
-
-
-  usuario=ForeignKey(
-    't_usuario.usuaio_id',
+  usuario = Column(
+    ForeignKey('t_usuario.usuario_id'),
     name='usuario_id',
-    type_=types.Integer,
-    nullable=False
-    ),
+    nullable=False,
+    type_=types.Integer
+  )
 
   def __init__(self, titulo, puntuacion, imagen1,imagen2, descripcion,categoria,usuario):
     self.conocimientoTitulo=titulo

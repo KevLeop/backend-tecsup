@@ -2,7 +2,7 @@
 
 const express = require("express");
 const temario_router = require("../routes/Temario");
-const bodyParser = require("body-parser");
+const { json } = require("body-parser");
 
 class Server {
   constructor() {
@@ -13,7 +13,7 @@ class Server {
   }
 
   configurarBodyParser() {
-    this.app.use(bodyParser.json());
+    this.app.use(json());
   }
 
   rutas() {

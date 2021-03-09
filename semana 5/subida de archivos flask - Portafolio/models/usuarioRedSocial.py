@@ -2,7 +2,7 @@ from config.base_datos import bd
 from sqlalchemy import Column, types
 from sqlalchemy.schema import ForeignKey
 
-class UsuarioRedSocial(bd.Model):
+class UsuarioRedSocialModel(bd.Model):
   __tablename__="t_usu_rs"
   usuRedSocId =Column(
     name="usu_rs_id",
@@ -21,15 +21,15 @@ class UsuarioRedSocial(bd.Model):
 
   usuario = Column(
     ForeignKey('t_usuario.usuario_id'),
-    nombre='usuario_id',
+    name='usuario_id',
     type_=types.Integer,
     nullable=False
   )
 
   redSocial = Column(
     ForeignKey('t_red_social.rs_id'),
-    nombre='rs_id',
-    type=types.Integer,
+    name='rs_id',
+    type_=types.Integer,
     nullable=False
   )
 
@@ -37,6 +37,7 @@ class UsuarioRedSocial(bd.Model):
 
   def __init__(self, link, usuario, red_social):
     self.usuRedSocLink=link
+
 
 
   def save(self):

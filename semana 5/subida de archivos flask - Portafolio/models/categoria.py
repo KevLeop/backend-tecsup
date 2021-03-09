@@ -1,7 +1,7 @@
 from sqlalchemy.sql.expression import null
 from config.base_datos import bd
 from sqlalchemy import Column, types
-
+from sqlalchemy.orm import relationship
 class CategoriaModel(bd.Model):
   __tablename__ ="t_categoria"
   categoriaId = Column(
@@ -31,6 +31,8 @@ class CategoriaModel(bd.Model):
     default=True,
     nullable=False
   )
+
+  conocimientos = relationship('ConocimientoModel', backref='categoriaConocimientos', cascade='all, delete')
 
   def __init__(self, nombre, orden, estado):
     self.categoriaNombre = nombre,
