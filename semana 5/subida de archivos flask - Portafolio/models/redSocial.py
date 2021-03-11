@@ -1,6 +1,7 @@
 from sqlalchemy.sql.sqltypes import String
 from config.base_datos import bd
 from sqlalchemy import Column, types
+from flask_restful import Resource, reqparse, request
 
 class RedSocialModel(bd.Model):
   __tablename__="t_red_social"
@@ -34,3 +35,11 @@ class RedSocialModel(bd.Model):
   def save(self):
     bd.session.add(self)
     bd.session.commit()
+
+  def json(self):
+    return {
+      'rs_id': self.redSocialId,
+      'rs_nombre': self.redSocialNombre,
+      'rs_imagen': self.redSocialImagen
+    }
+

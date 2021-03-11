@@ -9,7 +9,7 @@ module.exports = categoria_model = () => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        autoIncremente: true,
+        autoIncrement: true,
         field: "cat_id",
       },
       categoriaNombre: {

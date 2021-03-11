@@ -9,7 +9,7 @@ module.exports = promocion_model = () => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        autoIncremente: true,
+        autoIncrement: true,
         field: "prom_id",
       },
       promocionFechaDesde: {

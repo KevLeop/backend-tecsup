@@ -9,7 +9,7 @@ module.exports = usuario_model = () => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        autoIncremente: true,
+        autoIncrement: true,
         field: "usu_id",
       },
       usuarioEmail: {

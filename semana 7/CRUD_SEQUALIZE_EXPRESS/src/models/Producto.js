@@ -9,7 +9,7 @@ module.exports = producto_model = () => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
-        autoIncremente: true,
+        autoIncrement: true,
         field: "prod_id",
         validate: {
           min: 0,

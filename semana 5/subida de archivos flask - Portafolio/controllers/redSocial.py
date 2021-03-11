@@ -1,8 +1,6 @@
-from flask_restful import Resource, reqparse
+# from flask.wrappers import Request
+from flask_restful import Resource, reqparse, request
 from models.redSocial import RedSocialModel
-
-
-
 
 class RedSocialController(Resource):
   serializer = reqparse.RequestParser(bundle_errors=True)
@@ -36,4 +34,17 @@ class RedSocialController(Resource):
     pass
 
   def get(self):
+    print(request.host_url)
+    print(request.host)
+    redesSociales = RedSocialModel.query.all()
+    resultado =[]
+    for redSocial in redesSociales:
+      temporal = redSocial.json()
+      temporal['rs_imagen']=request.host_url+'devolverImagen'+'/'+temporal['rs_imagen']
+      resultado.append(temporal)
+    return {
+      'success': True,
+      'content': resultado,
+      'message': None
+    }
     pass

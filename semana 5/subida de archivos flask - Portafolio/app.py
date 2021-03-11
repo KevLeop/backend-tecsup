@@ -1,8 +1,10 @@
 from flask import Flask,request, send_file
+from flask_restful import Api
 from config.base_datos import bd
 from models.usuario import UsuarioModel
 from models.categoria import CategoriaModel
-from models.redSocial import RedSocialModel
+from controllers.redSocial import RedSocialController
+# from models.redSocial import RedSocialModel
 from models.contacto import ContactoModel
 from models.conocimiento import ConocimientoModel  
 from models.usuarioRedSocial import UsuarioRedSocialModel
@@ -14,6 +16,7 @@ from uuid import uuid4
 
 
 app = Flask(__name__)
+api = Api(app)
 # En SQL:ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'
 app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:root@localhost:3306/portfolioFlask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
@@ -73,11 +76,18 @@ def devolver_archivo(nombre):
 
 @app.route('/eliminarImagen/<string:nombre>', methods=['DELETE'])
 def eliminar_imagen(nombre):
-  os.remove(os.path.join(UPLOAD_FOLDER,nombre))
-  return {
-    'success':True,
-    'content': 'Imagen eliminada exitosamente'
-  } # Clase 25 2:31 
+  try:
+    os.remove(os.path.join(UPLOAD_FOLDER,nombre))
+    return {
+      'success':True,
+      'content': 'Imagen eliminada exitosamente'
+    } # Clase 25 2:31 
+  except:
+    return {
+      'success': False,
+      'content': 'No se encontró la imagen a eliminar'
+    }
+api.add_resource(RedSocialController,'/redsocial')
 
 if __name__ == '__main__':
   app.run(debug=True)
