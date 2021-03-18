@@ -3,6 +3,32 @@ from django.db import models
 from django.db.models.base import Model
 from django.db.models.fields import related
 
+class EspecieModel(models.Model):
+  especieId = models.AutoField(
+    primary_key=True,
+    unique=True,
+    null= False,
+    db_column='especie_id'
+  )
+  especieNombre = models.CharField(
+    max_length=45,
+    null=False,
+    db_column='especie_nombre',
+    verbose_name='Nombre de la especie'
+  )
+  
+
+  # Para modificar la forma como se  mostrará el objeto por consola
+  def __str__(self):
+    return self.especieNombre
+
+  class Meta:
+    db_table='t_especie'
+    # los sgtes atributos solamente sirven si vamos a utilizar el panel admin
+    verbose_name='Especie'
+    verbose_name_plural='Especies'
+
+
 # Tipos de modelos: https://docs.djangoproject.com/en/3.1/ref/models/fields/
 class RazaModel(models.Model):
   # si NO DEFINIMOS LA p, se creará automaticamente en mi BD con el nombre de la comlumna id
@@ -12,33 +38,18 @@ class RazaModel(models.Model):
                             unique=True, 
                             null=False,
                             db_column='raza_id',
-                            help_text='Aqui va el id',
+                            help_text='ID de la raza',
                             verbose_name='ID de la raza'
+
                             )
+
+  def __str__(self):
+    return self.razaNombre
+
   razaNombre = models.CharField(
     max_length=45,
     db_column='raza_nombre',
     verbose_name='Nombre de la raza'
-  )
-  # para definir algunas opciones extras como el nombre de la tabla, e ordenamiento de los resultados,
-  # y modifical opciones de visualizacion en el panel administrativo se crea una clase Meta que
-  # sirve par apasar los metadatos al padre (a la clase que hemos heredado)
-  class Meta:
-    # asi se cambia el nombre de la tabla
-    db_table='t_raza'
-
-
-class TipoModel(models.Model):
-  tipoId = models.AutoField(
-    primary_key=True,
-    unique=True,
-    null= False,
-    db_column='tipo_id'
-  )
-  tipoNombre = models.CharField(
-    max_length=45,
-    null=False,
-    db_column='tipo_nombre'
   )
   # al momento de eliminar un padre, tenemos que indicar que va a pasar con sus hijos
   # CASCADE => PREMITE ELIMINAR AL PADRE Y CONSEUCENTEMENTE ELIMINAR A LOS HIJOS
@@ -48,24 +59,24 @@ class TipoModel(models.Model):
   # DO_NOTHING => Permite eliminar al padre y deja su PK sin modificar a los hijos
   # RESTRICT => No permite la eliminacion y lanzara un error de ripo RestrictedError
   # https://docs.djangoproject.com/en/3.1/ref/models/fields/#django.db.models.ForeignKey.on_delete
-  raza = models.ForeignKey(
-    to=RazaModel,
+  especie = models.ForeignKey(
+    to=EspecieModel,
     on_delete=models.PROTECT,
-    db_column='raza_id', #cuando querramos ingresar a su relacion inversa
-    related_name='tiposraza',
-    verbose_name='Raza',
-    help_text='Id de la raza'
+    db_column='especie_id', #cuando querramos ingresar a su relacion inversa
+    related_name='tiposespecie',
+    verbose_name='Especie',
+    help_text='Id de la Especie'
     )
-
-  # Para modificar la forma como se  mostrará el objeto por consola
-  def __str__(self):
-    return self.tipoNombre
-
+  # para definir algunas opciones extras como el nombre de la tabla, e ordenamiento de los resultados,
+  # y modifical opciones de visualizacion en el panel administrativo se crea una clase Meta que
+  # sirve par apasar los metadatos al padre (a la clase que hemos heredado)
   class Meta:
-    db_table='t_tipo'
-    # los sgtes atributos solamente sirven si vamos a utilizar el panel admin
-    verbose_name='Tipo'
-    verbose_name_plural='Tipos'
+    # asi se cambia el nombre de la tabla
+    db_table='t_raza'
+    verbose_name='Raza'
+    verbose_name_plural='Razas'
+
+
 
 
 class ClienteModel(models.Model):
@@ -137,13 +148,13 @@ class MascotaModel(models.Model):
     db_column='cli_dni',
   )
 
-  tipo = models.ForeignKey(
-    to=TipoModel,
-    on_delete=models.PROTECT,
-    related_name='mascotasTipo',
-    null=False,
-    db_column='tipo_id',
-  )
+  raza = models.ForeignKey(
+        to=RazaModel,
+        on_delete=models.PROTECT,
+        db_column='raza_id',
+        related_name='mascotasRaza',
+        null=False
+    )
 
   class Meta:
     db_table='t_mascota'
