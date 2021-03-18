@@ -22,7 +22,7 @@ const conexion = new Sequelize(
     logging: false, // para que las consultas no aparezcan en la terminal
     dialectOptions: {
       // al momento de mostrar fecha se convierte automaticamente a str
-      dateString: true,
+      dateStrings: true,
     },
   }
 );

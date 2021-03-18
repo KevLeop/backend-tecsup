@@ -1,9 +1,14 @@
 const express = require("express");
 const { json } = require("body-parser");
 const { conexion } = require("./Sequelize");
-
+const { serve, setup } = require("swagger-ui-express");
+const documentacion = require("../../docs/documentacionSwagger.json");
 const categoria_router = require("../routes/Categoria");
 const producto_router = require("../routes/Producto");
+const promocion_router = require("../routes/Promocion");
+const usuario_router = require("../routes/Usuario");
+const cliente_router = require("../routes/Cliente");
+const venta_router = require("../routes/Venta");
 
 module.exports = class Server {
   constructor() {
@@ -37,8 +42,13 @@ module.exports = class Server {
         message: "Bienvenido a mi API",
       });
     });
+    this.app.use("/docs", serve, setup(documentacion));
     this.app.use(categoria_router);
     this.app.use(producto_router);
+    this.app.use(promocion_router);
+    this.app.use(usuario_router);
+    this.app.use(cliente_router);
+    this.app.use(venta_router);
   }
   start() {
     this.app.listen(this.puerto, async () => {
@@ -46,7 +56,7 @@ module.exports = class Server {
       try {
         // { force: true }
         let respuesta = await conexion.sync();
-        console.log(respuesta.config);
+        // console.log(respuesta.config);
         console.log("Base de datos sincronizada correctamente");
       } catch (error) {
         console.log(error);

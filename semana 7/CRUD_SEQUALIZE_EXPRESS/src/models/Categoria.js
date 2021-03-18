@@ -3,7 +3,7 @@ const { conexion } = require("../config/Sequelize");
 
 module.exports = categoria_model = () => {
   return (categoria = conexion.define(
-    "categoria",
+    "categorias",
     {
       categoriaId: {
         type: DataTypes.INTEGER,

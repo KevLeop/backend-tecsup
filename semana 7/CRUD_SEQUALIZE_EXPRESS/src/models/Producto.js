@@ -3,7 +3,7 @@ const { conexion } = require("../config/Sequelize");
 
 module.exports = producto_model = () => {
   return (producto = conexion.define(
-    "producto",
+    "productos",
     {
       productoId: {
         type: DataTypes.INTEGER,

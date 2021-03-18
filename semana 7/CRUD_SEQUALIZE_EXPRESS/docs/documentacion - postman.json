@@ -1,0 +1,482 @@
+{
+	"info": {
+		"_postman_id": "43ada8ab-1399-4d90-b53d-32b74d170fc0",
+		"name": "Minimarket Express",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "[POST] /categoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoriaNombre\":\"Ropa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/categoria",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"categoria"
+							]
+						},
+						"description": "Ruta para crear una nueva categoria"
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] /categoria",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoriaNombre\": \"embuasdsadadasdti\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/categoria",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"categoria"
+							]
+						},
+						"description": "Ruta para devolver todas las categorias"
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] /categoria/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/categoria/1",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"categoria",
+								"1"
+							]
+						},
+						"description": "Ruta para obtener una categoria por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] /categoria/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoriaNombre\":\"camasdiado!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/categoria/1",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"categoria",
+								"1"
+							]
+						},
+						"description": "Ruta para editar categoria segun su id"
+					},
+					"response": []
+				},
+				{
+					"name": "[DELETE] /categoria/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/categoria/2",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"categoria",
+								"2"
+							]
+						},
+						"description": "Metodo para eliminar una categoria segun su id"
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] /buscarCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/buscarcategoria?nombre=lact",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"buscarcategoria"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "lact"
+								}
+							]
+						},
+						"description": "Ruta que devuelve todas las categorias segun un filtro dinamico"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "[POST] /producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productoNombre\":\"Vestido verano azul\",\r\n    \"productoPrecio\": 33.29,\r\n    \"productoCantidad\": 9,\r\n    \"productoFechaVencimiento\": \"2022-04-07\",\r\n    \"cat_id\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/producto",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"producto"
+							]
+						},
+						"description": "Ruta que devuelve todos los productos"
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] /buscarProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/buscarProducto?nombre=ves",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"buscarProducto"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "ves"
+								}
+							]
+						},
+						"description": "Ruta para devolver un producto por nombre"
+					},
+					"response": []
+				},
+				{
+					"name": "[PUT] /editarProducto/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productoNombre\":\"Queso Edam 1\",\r\n    \"productoPrecio\": 14.70,\r\n    \"productoCantidad\": 14,\r\n    \"productoFechaVencimiento\": \"2022-04-07\",\r\n    \"productoEstado\":true,\r\n    \"cat_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/editarProducto/1",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"editarProducto",
+								"1"
+							]
+						},
+						"description": "Ruta para editar un producto segun su id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Promocion",
+			"item": [
+				{
+					"name": "[POST] /promocion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"promocionFechaDesde\":\"2021-03-19 00:00\",\r\n    \"promocionFechaHasta\":\"2021-03-21 23:59\",\r\n    \"promocionDescuento\":20.00,\r\n    \"promocionEstado\":true,\r\n    \"prod_id\":3\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/promocion",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"promocion"
+							]
+						},
+						"description": "Ruta para crear nueva promocion"
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] /promocion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/promocion",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"promocion"
+							]
+						},
+						"description": "Ruta para obtener todas la promociones"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "[POST] /registro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuarioEmail\":\"kevinleo93@gmail.com\",\r\n    \"usuarioSuperUser\": true,\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/registro",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"registro"
+							]
+						},
+						"description": "Ruta para crear un nuevo usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "[POST] /login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"kevinleo93@gmail.com\",\r\n    \"password\": \"123456\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/login",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Ruta para validar login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cliente",
+			"item": [
+				{
+					"name": "[POST] /cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOjIsInVzdWFyaW9FbWFpbCI6ImtldmlubGVvOTNAZ21haWwuY29tIiwiaWF0IjoxNjE1NjAzNDI2LCJleHAiOjE2MTU2MDcwMjZ9.nluEwGdfWIB1OtqlNhNQmoEmFIBjmnJo21uRjtf0Y1g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clienteDni\":\"73500748\",\r\n    \"clienteNombre\": \"Eduardo De Rivero\",\r\n    \"clienteDireccion\":\"Av.avenida 123 codigo\",\r\n    \"clienteFono\":\"999999999\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/cliente",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"cliente"
+							]
+						},
+						"description": "Ruta para crear nuevo cliente"
+					},
+					"response": []
+				},
+				{
+					"name": "[GET] /cliente",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvSWQiOjIsInVzdWFyaW9FbWFpbCI6ImtldmlubGVvOTNAZ21haWwuY29tIiwiaWF0IjoxNjE1NTk5MzcxLCJleHAiOjE2MTU2MDI5NzF9.PMX6PMxNQr_V1emch68sZbweSvhvPEqxvHRiWY1wvAw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_dev}}/cliente",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"cliente"
+							]
+						},
+						"description": "Ruta para obtener los clientes"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "VENTA",
+			"item": [
+				{
+					"name": "POST /venta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fecha\": \"\",\r\n    \"serie\": \"FFF\",\r\n    \"cliente\": \"73500748\",\r\n    \"usuario\": 1,\r\n    \"productos\": [\r\n        {\r\n            \"cantidad\": 5,\r\n            \"id\": 2\r\n        },\r\n        {\r\n            \"cantidad\": 2,\r\n            \"id\": 3\r\n        },\r\n        {\r\n            \"cantidad\": 3,\r\n            \"id\": 5\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_dev}}/venta",
+							"host": [
+								"{{url_dev}}"
+							],
+							"path": [
+								"venta"
+							]
+						},
+						"description": "Ruta para registrar una venta"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url_dev",
+			"value": "127.0.0.1:5000"
+		}
+	]
+}

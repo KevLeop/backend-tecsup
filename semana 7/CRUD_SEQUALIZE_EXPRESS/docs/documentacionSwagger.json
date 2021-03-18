@@ -1,0 +1,892 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Minimarket Express",
+    "contact": {}
+  },
+  "host": "127.0.0.1:5000",
+  "basePath": "/",
+  "securityDefinitions": {},
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/categoria": {
+      "post": {
+        "description": "Ruta para crear una nueva categoria",
+        "summary": "[POST] /categoria",
+        "tags": [
+          "Categoria"
+        ],
+        "operationId": "[POST]/categoria",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPOST%5D~1categoriaRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "Ruta para devolver todas las categorias",
+        "summary": "[GET] /categoria",
+        "tags": [
+          "Categoria"
+        ],
+        "operationId": "[GET]/categoria",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/categoria/1": {
+      "get": {
+        "description": "Ruta para obtener una categoria por su ID",
+        "summary": "[GET] /categoria/:id",
+        "tags": [
+          "Categoria"
+        ],
+        "operationId": "[GET]/categoria/:id",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "description": "Ruta para editar categoria segun su id",
+        "summary": "[PUT] /categoria/:id",
+        "tags": [
+          "Categoria"
+        ],
+        "operationId": "[PUT]/categoria/:id",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPUT%5D~1categoria~1%3AidRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/categoria/2": {
+      "delete": {
+        "description": "Metodo para eliminar una categoria segun su id",
+        "summary": "[DELETE] /categoria/:id",
+        "tags": [
+          "Categoria"
+        ],
+        "operationId": "[DELETE]/categoria/:id",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/buscarcategoria": {
+      "get": {
+        "description": "Ruta que devuelve todas las categorias segun un filtro dinamico",
+        "summary": "[GET] /buscarCategoria",
+        "tags": [
+          "Categoria"
+        ],
+        "operationId": "[GET]/buscarCategoria",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/producto": {
+      "post": {
+        "description": "Ruta que devuelve todos los productos",
+        "summary": "[POST] /producto",
+        "tags": [
+          "Productos"
+        ],
+        "operationId": "[POST]/producto",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPOST%5D~1productoRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/buscarProducto": {
+      "get": {
+        "description": "Ruta para devolver un producto por nombre",
+        "summary": "[GET] /buscarProducto",
+        "tags": [
+          "Productos"
+        ],
+        "operationId": "[GET]/buscarProducto",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "nombre",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/editarProducto/1": {
+      "put": {
+        "description": "Ruta para editar un producto segun su id",
+        "summary": "[PUT] /editarProducto/:id",
+        "tags": [
+          "Productos"
+        ],
+        "operationId": "[PUT]/editarProducto/:id",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPUT%5D~1editarProducto~1%3AidRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/promocion": {
+      "post": {
+        "description": "Ruta para crear nueva promocion",
+        "summary": "[POST] /promocion",
+        "tags": [
+          "Promocion"
+        ],
+        "operationId": "[POST]/promocion",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPOST%5D~1promocionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "Ruta para obtener todas la promociones",
+        "summary": "[GET] /promocion",
+        "tags": [
+          "Promocion"
+        ],
+        "operationId": "[GET]/promocion",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/registro": {
+      "post": {
+        "description": "Ruta para crear un nuevo usuario",
+        "summary": "[POST] /registro",
+        "tags": [
+          "Usuario"
+        ],
+        "operationId": "[POST]/registro",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPOST%5D~1registroRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Ruta para validar login",
+        "summary": "[POST] /login",
+        "tags": [
+          "Usuario"
+        ],
+        "operationId": "[POST]/login",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPOST%5D~1loginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/cliente": {
+      "post": {
+        "description": "Ruta para crear nuevo cliente",
+        "summary": "[POST] /cliente",
+        "tags": [
+          "Cliente"
+        ],
+        "operationId": "[POST]/cliente",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/%5BPOST%5D~1clienteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "Ruta para obtener los clientes",
+        "summary": "[GET] /cliente",
+        "tags": [
+          "Cliente"
+        ],
+        "operationId": "[GET]/cliente",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/venta": {
+      "post": {
+        "description": "Ruta para registrar una venta",
+        "summary": "POST /venta",
+        "tags": [
+          "VENTA"
+        ],
+        "operationId": "POST/venta",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/POST~1ventaRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "[POST]/categoriaRequest": {
+      "title": "[POST]/categoriaRequest",
+      "example": {
+        "categoriaNombre": "Ropa"
+      },
+      "type": "object",
+      "properties": {
+        "categoriaNombre": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "categoriaNombre"
+      ]
+    },
+    "[PUT]/categoria/:idRequest": {
+      "title": "[PUT]/categoria/:idRequest",
+      "example": {
+        "categoriaNombre": "camasdiado!"
+      },
+      "type": "object",
+      "properties": {
+        "categoriaNombre": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "categoriaNombre"
+      ]
+    },
+    "[POST]/productoRequest": {
+      "title": "[POST]/productoRequest",
+      "example": {
+        "productoNombre": "Vestido verano azul",
+        "productoPrecio": 33.29,
+        "productoCantidad": 9,
+        "productoFechaVencimiento": "2022-04-07",
+        "cat_id": 3
+      },
+      "type": "object",
+      "properties": {
+        "productoNombre": {
+          "type": "string"
+        },
+        "productoPrecio": {
+          "type": "number",
+          "format": "double"
+        },
+        "productoCantidad": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productoFechaVencimiento": {
+          "type": "string"
+        },
+        "cat_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "productoNombre",
+        "productoPrecio",
+        "productoCantidad",
+        "productoFechaVencimiento",
+        "cat_id"
+      ]
+    },
+    "[PUT]/editarProducto/:idRequest": {
+      "title": "[PUT]/editarProducto/:idRequest",
+      "example": {
+        "productoNombre": "Queso Edam 1",
+        "productoPrecio": 14.7,
+        "productoCantidad": 14,
+        "productoFechaVencimiento": "2022-04-07",
+        "productoEstado": true,
+        "cat_id": 2
+      },
+      "type": "object",
+      "properties": {
+        "productoNombre": {
+          "type": "string"
+        },
+        "productoPrecio": {
+          "type": "number",
+          "format": "double"
+        },
+        "productoCantidad": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productoFechaVencimiento": {
+          "type": "string"
+        },
+        "productoEstado": {
+          "type": "boolean"
+        },
+        "cat_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "productoNombre",
+        "productoPrecio",
+        "productoCantidad",
+        "productoFechaVencimiento",
+        "productoEstado",
+        "cat_id"
+      ]
+    },
+    "[POST]/promocionRequest": {
+      "title": "[POST]/promocionRequest",
+      "example": {
+        "promocionFechaDesde": "2021-03-19 00:00",
+        "promocionFechaHasta": "2021-03-21 23:59",
+        "promocionDescuento": 20.0,
+        "promocionEstado": true,
+        "prod_id": 3
+      },
+      "type": "object",
+      "properties": {
+        "promocionFechaDesde": {
+          "type": "string"
+        },
+        "promocionFechaHasta": {
+          "type": "string"
+        },
+        "promocionDescuento": {
+          "type": "number",
+          "format": "double"
+        },
+        "promocionEstado": {
+          "type": "boolean"
+        },
+        "prod_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "promocionFechaDesde",
+        "promocionFechaHasta",
+        "promocionDescuento",
+        "promocionEstado",
+        "prod_id"
+      ]
+    },
+    "[POST]/registroRequest": {
+      "title": "[POST]/registroRequest",
+      "example": {
+        "usuarioEmail": "kevinleo93@gmail.com",
+        "usuarioSuperUser": true,
+        "password": "123456"
+      },
+      "type": "object",
+      "properties": {
+        "usuarioEmail": {
+          "type": "string"
+        },
+        "usuarioSuperUser": {
+          "type": "boolean"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "usuarioEmail",
+        "usuarioSuperUser",
+        "password"
+      ]
+    },
+    "[POST]/loginRequest": {
+      "title": "[POST]/loginRequest",
+      "example": {
+        "email": "kevinleo93@gmail.com",
+        "password": "123456"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "[POST]/clienteRequest": {
+      "title": "[POST]/clienteRequest",
+      "example": {
+        "clienteDni": "73500748",
+        "clienteNombre": "Eduardo De Rivero",
+        "clienteDireccion": "Av.avenida 123 codigo",
+        "clienteFono": "999999999"
+      },
+      "type": "object",
+      "properties": {
+        "clienteDni": {
+          "type": "string"
+        },
+        "clienteNombre": {
+          "type": "string"
+        },
+        "clienteDireccion": {
+          "type": "string"
+        },
+        "clienteFono": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "clienteDni",
+        "clienteNombre",
+        "clienteDireccion",
+        "clienteFono"
+      ]
+    },
+    "POST/ventaRequest": {
+      "title": "POST/ventaRequest",
+      "example": {
+        "fecha": "",
+        "serie": "FFF",
+        "cliente": "73500748",
+        "usuario": 1,
+        "productos": [
+          {
+            "cantidad": 5,
+            "id": 2
+          },
+          {
+            "cantidad": 2,
+            "id": 3
+          },
+          {
+            "cantidad": 3,
+            "id": 5
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "fecha": {
+          "type": "string"
+        },
+        "serie": {
+          "type": "string"
+        },
+        "cliente": {
+          "type": "string"
+        },
+        "usuario": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "productos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Producto"
+          }
+        }
+      },
+      "required": [
+        "fecha",
+        "serie",
+        "cliente",
+        "usuario",
+        "productos"
+      ]
+    },
+    "Producto": {
+      "title": "Producto",
+      "example": {
+        "cantidad": 5,
+        "id": 2
+      },
+      "type": "object",
+      "properties": {
+        "cantidad": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "cantidad",
+        "id"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Categoria"
+    },
+    {
+      "name": "Productos"
+    },
+    {
+      "name": "Promocion"
+    },
+    {
+      "name": "Usuario"
+    },
+    {
+      "name": "Cliente"
+    },
+    {
+      "name": "VENTA"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ const { conexion } = require("../config/Sequelize");
 
 module.exports = cliente_model = () => {
   return conexion.define(
-    "cliente",
+    "clientes",
     {
       clienteDni: {
         type: DataTypes.STRING(9),

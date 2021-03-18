@@ -111,7 +111,7 @@ const listarCategoriasLikeName = async (req, res) => {
       },
     },
   }).catch((error) => {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       content: error,
       message: "Hubo un error filtrar categoria",

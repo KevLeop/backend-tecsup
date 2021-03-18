@@ -3,7 +3,7 @@ const { conexion } = require("../config/Sequelize");
 
 module.exports = cabecera_model = () => {
   return conexion.define(
-    "cabecera",
+    "cabeceras",
     {
       cabeceraId: {
         type: DataTypes.INTEGER,
@@ -16,6 +16,7 @@ module.exports = cabecera_model = () => {
         type: DataTypes.DATEONLY,
         allowNull: false,
         field: "cab_fecha",
+        defaultValue: DataTypes.NOW,
       },
       cabeceraSerie: {
         type: DataTypes.STRING(4),
