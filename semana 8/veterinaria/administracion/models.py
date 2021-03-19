@@ -12,6 +12,7 @@ class EspecieModel(models.Model):
   )
   especieNombre = models.CharField(
     max_length=45,
+    unique=True,
     null=False,
     db_column='especie_nombre',
     verbose_name='Nombre de la especie'
@@ -179,6 +180,9 @@ class PromocionModel(models.Model):
     null=False,
     db_column='promo_estado'
   )
+
+  def __str__(self):
+    return 'La promocion es: {} y su estado es: {}'.format(self.promocionDescripcion,self.promocionEstado)
 
   class Meta:
     db_table='t_promocion'

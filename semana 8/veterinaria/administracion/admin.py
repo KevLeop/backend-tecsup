@@ -13,11 +13,14 @@ class RazaAdmin(admin.ModelAdmin):
   readonly_fields=('razaId',)
   ordering = ('razaNombre',)
 
+class PromoAdmin(admin.ModelAdmin):
+  list_display=('promocionDescripcion','promocionEstado')
+  list_filter = ['promocionEstado']
 
 admin.site.register(RazaModel, RazaAdmin)
 admin.site.register(EspecieModel)
 admin.site.register(ClienteModel)
-admin.site.register(PromocionModel)
+admin.site.register(PromocionModel,PromoAdmin)
 admin.site.register(MascotaModel)
 
 # Register your models here.
