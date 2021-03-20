@@ -1,5 +1,6 @@
-from .models import EspecieModel
-from .serializers import EspecieSerializer
+from django.db.models.query import QuerySet
+from .models import EspecieModel, RazaModel
+from .serializers import EspecieSerializer, RazaSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -66,7 +67,10 @@ class EspecieController(RetrieveUpdateDestroyAPIView):
     especie = self.get_queryset(id)
     respuesta = self.serializer_class(instance=especie)
     print(respuesta.instance)
-    if respuesta.instance is not None:
+    
+    # if respuesta.data.get('especieId'):
+    # if especie
+    if respuesta.instance:
       return Response(data={
         'success':True,
         'content':respuesta.data,
@@ -80,6 +84,74 @@ class EspecieController(RetrieveUpdateDestroyAPIView):
       }, status=status.HTTP_400_BAD_REQUEST)
   
   def put(self,request,id):
-    pass
+    especie = self.get_queryset(id)
+    respuesta = self.serializer_class(instance=especie,data=request.data)
+    if respuesta.is_valid():
+      resultado = respuesta.update()
+      return Response(data={
+        "success":True,
+        "content": resultado,
+        'message':'Se actualizó la especie exitosamente'
+      })
+    else:
+      return Response(data={
+        'success':False,
+        'content':respuesta.errors,
+        'message':'Data incorrecta'
+      })
+
   def delete (self,request,id):
-    pass
+    especie=self.get_queryset(id)
+
+    if especie:
+      respuesta = self.serializer_class(instance=especie)
+      respuesta.delete()
+      return Response(data={
+        'success':True,
+        'content':None,
+        'message':'Se inhabilitó la especie'
+      })
+    else: 
+      return Response(data={
+        'success':False,
+        'content':None,
+        'message':'Especie no existe'
+      })
+
+class RazasController(ListCreateAPIView):
+  queryset = RazaModel.objects.all()
+  serializer_class = RazaSerializer
+  def post(self,request):
+    respuesta = self.serializer_class(data=request.data)
+    if respuesta.is_valid():
+      respuesta.save()
+      return Response(data={
+        'success': True,
+        'content':respuesta.data,
+        'message':'Raza creada exitosamente'
+      },status=status.HTTP_201_CREATED)
+    else:
+      return Response(data={
+        'success':False,
+        'content':respuesta.errors,
+        'message': 'Data incorrecta'
+      },status=status.HTTP_400_BAD_REQUEST)
+
+  def filtrar_razas(self):
+    razas = RazaModel.objects.all()
+    resultado =[]
+    for raza in razas:
+      if (raza.especie.especieEstado):
+        resultado.append(raza)
+    return resultado
+
+
+  def get(self,request):
+    respuesta = self.serializer_class(instance=self.filtrar_razas(),many=True)
+    print(self.get_queryset()[0].especie.especieNombre)
+    return Response({
+      'success':True,
+      'content': respuesta.data,
+      'message':None
+    })
+

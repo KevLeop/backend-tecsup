@@ -1,11 +1,30 @@
-from abc import abstractproperty
-from enum import auto
-from re import A
-from typing import Any
 from rest_framework import serializers
-from .models import EspecieModel
+from .models import EspecieModel, RazaModel
+
+  
+
+class MostrarRazaSerializer(serializers.ModelSerializer):
+  class Meta:
+    model=RazaModel
+    fields='__all__'
+  
 
 class EspecieSerializer(serializers.ModelSerializer):
+  razas = MostrarRazaSerializer(source='especiesRaza',many=True,read_only=True)
+  def update(self):
+    print(self.instance)
+    print(self.validated_data)
+    self.instance.especieNombre=self.validated_data.get('especieNombre')
+    self.instance.especieEstado=self.validated_data.get('especieEstado')
+    # el metodo save() es el metodo de los MODELS que se encarfa de guardar en la BD
+    self.instance.save()
+    return self.data
+
+  def delete(self):
+    self.instance.especieEstado = False
+    self.instance.save()
+    return self.data
+
   class Meta:
     # para que haga match con el model, y pueda jalar las columns con sus propiedades
     model = EspecieModel
@@ -14,5 +33,13 @@ class EspecieSerializer(serializers.ModelSerializer):
     # si quermos solamente usar ciertos campos (minoria) => ['campo1','campo2',...]
     # si queremos usar la mayoria de campos y evitar una minoria => exclude=['campo1','campo2',...]
     fields = '__all__'
+  
 
+class RazaSerializer(serializers.ModelSerializer):
+  especie = EspecieSerializer(read_only=True)
+  
+
+  class Meta:
+    model=RazaModel
+    fields='__all__'
   

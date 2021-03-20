@@ -17,11 +17,16 @@ class EspecieModel(models.Model):
     db_column='especie_nombre',
     verbose_name='Nombre de la especie'
   )
+  especieEstado = models.BooleanField(
+    default=True,
+    null=False,
+    db_column='especie_estado'
+  )
   
 
   # Para modificar la forma como se  mostrará el objeto por consola
   def __str__(self):
-    return self.especieNombre
+    return "Objeto "+self.especieNombre
 
   class Meta:
     db_table='t_especie'
@@ -64,7 +69,7 @@ class RazaModel(models.Model):
     to=EspecieModel,
     on_delete=models.PROTECT,
     db_column='especie_id', #cuando querramos ingresar a su relacion inversa
-    related_name='tiposespecie',
+    related_name='especiesRaza',
     verbose_name='Especie',
     help_text='Id de la Especie'
     )
