@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import EspecieModel, RazaModel
+from .models import EspecieModel, MascotaModel, RazaModel
 
   
 
@@ -34,12 +34,23 @@ class EspecieSerializer(serializers.ModelSerializer):
     # si queremos usar la mayoria de campos y evitar una minoria => exclude=['campo1','campo2',...]
     fields = '__all__'
   
+class EspecieVistaSerializer(serializers.ModelSerializer):
+  class Meta:
+    model= EspecieModel
+    fields='__all__'
 
-class RazaSerializer(serializers.ModelSerializer):
-  especie = EspecieSerializer(read_only=True)
-  
-
+class RazaEscrituraSerializer(serializers.ModelSerializer):
   class Meta:
     model=RazaModel
     fields='__all__'
   
+class RazaVistaSerializer(serializers.ModelSerializer):
+  especie = EspecieVistaSerializer()
+  class Meta:
+    model=RazaModel
+    fields='__all__'
+
+class MascotaSerializer(serializers.ModelSerializer):
+  class Meta:
+    model=MascotaModel
+    fields='__all__'

@@ -1,10 +1,13 @@
+from re import M
 from django.db.models.query import QuerySet
-from .models import EspecieModel, RazaModel
-from .serializers import EspecieSerializer, RazaSerializer
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from .models import EspecieModel, MascotaModel, RazaModel
+from .serializers import EspecieSerializer, MascotaSerializer, RazaEscrituraSerializer, RazaVistaSerializer
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
-from rest_framework import status
-
+from rest_framework import serializers, status
+from django.db.models import Count
 # # Create your views here.
 class EspeciesController(ListCreateAPIView):
 
@@ -120,7 +123,7 @@ class EspecieController(RetrieveUpdateDestroyAPIView):
 
 class RazasController(ListCreateAPIView):
   queryset = RazaModel.objects.all()
-  serializer_class = RazaSerializer
+  serializer_class = RazaEscrituraSerializer
   def post(self,request):
     respuesta = self.serializer_class(data=request.data)
     if respuesta.is_valid():
@@ -147,7 +150,7 @@ class RazasController(ListCreateAPIView):
 
 
   def get(self,request):
-    respuesta = self.serializer_class(instance=self.filtrar_razas(),many=True)
+    respuesta = RazaVistaSerializer(instance=self.filtrar_razas(),many=True)
     print(self.get_queryset()[0].especie.especieNombre)
     return Response({
       'success':True,
@@ -155,3 +158,91 @@ class RazasController(ListCreateAPIView):
       'message':None
     })
 
+
+class MascotasController(ListCreateAPIView):
+  queryset= MascotaModel.objects.all()
+  serializer_class=MascotaSerializer
+
+  def post(self,request):
+    resultado = self.serializer_class(data=request.data)
+    if resultado.is_valid():
+      resultado.save()
+      return Response(data={
+        'success':True,
+        'content': resultado.data,
+        'message': 'Mascota registrada exitosamente'
+      },status=status.HTTP_200_OK)
+    else:
+      return Response(data={
+        'success':False,
+        'content': resultado.errors,
+        'message': 'Hubo un error al registrar mascota'
+
+      },status=status.HTTP_400_BAD_REQUEST)
+
+  def get(self,request):
+    resultado = self.serializer_class(instance=self.get_queryset(), many=True) 
+    return Response(
+      {
+        'success':True,
+        'content': resultado.data,
+        'message':"None"
+      }
+    )
+
+class CustomController(APIView):
+  def get(self,request):
+    return Response({
+      "Prueba con custom controller"
+    })
+  
+# @api_view([GET,POST])
+# def prueba2(request):
+#   print(request.method)
+#   print(request.data)
+#   if (request.method=='POST'):
+#     pass
+#   return Response({
+#     'message':'Esto es un controlador'
+#   })
+
+class BusquedaController(ListCreateAPIView):
+  queryset = MascotaModel.objects.all()
+  serializer_class = MascotaSerializer
+  # https://docs.djangoproject.com/en/3.1/ref/models/querysets/#gt
+  def get(self,request):
+    if request.query_params.get('fecha'):
+      anio = request.query_params.get('fecha')
+      # mascotas = MascotaModel.objects.filter(mascotaFechaNacimiento__range=(anio+"-01-01",anio+"-12-31"))
+
+      mascotas = MascotaModel.objects.filter(mascotaFechaNacimiento__year=anio).all()
+      resultado = self.serializer_class(instance=mascotas,many=True)
+      return Response(data={
+        'success':True,
+        'content':resultado.data,
+        'message':'ok'
+        })
+    else:
+      return Response(data={
+        'success':False,
+        'content':None,
+        'message':'No se tienen campos de fecha'
+      })
+
+#  En el ORM seria => MascotaModel.objects.filter(mascotaFechaNacimiento__range=("2018-01-01","2018-12-31"))
+
+#constrolador para contabilizar cuantas masotas son machos y cuantas hembras
+
+
+@api_view(['GET'])
+def contabilizar_sexo(request):
+  resultado =MascotaModel.objects.values('mascotaSexo').annotate(Count('mascotaSexo')).order_by('-mascotaSexo')
+  pruebas = MascotaModel.objects.order_by('raza__razaNombre').all()
+  pruebas2 = MascotaModel.objects.filter(raza__razaNombre='Shitzu')
+  print(pruebas2)
+  # print(pruebas)
+  return Response({
+    'success':True,
+    'content': resultado,
+    'message': 'OK'
+  })

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'administracion'
+    'administracion',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -78,10 +79,14 @@ WSGI_APPLICATION = 'veterinaria.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'veterinaria',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'NAME':'j03fkdl9fyuf75fj',
+        # 'NAME': 'veterinaria',
+        # 'USER': 'root',
+        'USER': 'cxaznn6okex8diwz'
+        # 'PASSWORD': 'root',
+        'PASSWORD':'f5sehbqmw2z0swsk'
+        # 'HOST': '127.0.0.1',
+        'HOST':'u6354r3es4optspf.cbetxkdyhwsb.us-east-1.rds.amazonaws.com	'
         'PORT': '3306'
 
         # 'ENGINE': 'django.db.backends.sqlite3',
