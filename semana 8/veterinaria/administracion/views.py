@@ -2,12 +2,14 @@ from re import M
 from django.db.models.query import QuerySet
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from .models import EspecieModel, MascotaModel, RazaModel
-from .serializers import EspecieSerializer, MascotaSerializer, RazaEscrituraSerializer, RazaVistaSerializer
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .models import EspecieModel, MascotaModel, RazaModel, ClienteModel
+from .serializers import (ClienteMascotaSerializer, EspecieSerializer, MascotaSerializer, RazaEscrituraSerializer, 
+                          RazaVistaSerializer, ClienteSerializer, RegistroClienteSerializer)
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from django.db.models import Count
+from .utils import consultarDNI
 # # Create your views here.
 class EspeciesController(ListCreateAPIView):
 
@@ -246,3 +248,75 @@ def contabilizar_sexo(request):
     'content': resultado,
     'message': 'OK'
   })
+
+
+class ClienteController(ListCreateAPIView):
+  queryset = ClienteModel.objects.all()
+  serializer_class = ClienteSerializer
+
+  def get(self,request):
+    resultado = self.serializer_class(instance=self.get_queryset(),many=True)
+    return Response({
+      'success':True,
+      'content': resultado.data,
+      'message':None
+    })
+
+  def post(self,request):
+    resultado = RegistroClienteSerializer(data=request.data)
+    if resultado.is_valid():
+      resultado.validated_data
+      dni_request = resultado.validated_data.get('dni')
+      personaEncontrada = consultarDNI(dni_request)
+      cliente = ClienteModel.objects.filter(clienteDni=dni_request).first()
+      print(cliente)
+      if cliente is None:
+        nuevoCliente = ClienteModel(clienteDni = resultado.validated_data.get('dni'),
+                    clienteNombre = personaEncontrada.get('data').get('nombres'),
+                    clienteApellido = personaEncontrada.get('data').get('apellido_paterno')+' '+personaEncontrada.get('data').get('apellido_materno'),
+                    clienteEmail= resultado.validated_data.get('email'),
+                    clienteFono= resultado.validated_data.get('telefono')
+        )
+
+        nuevoCliente.save()
+        return Response({
+          'success':True,
+          'content':resultado.data,
+          'message':'Se ha creado nuevo cliente'
+        },status.HTTP_201_CREATED)
+      else:
+        return Response({
+        'success':False,
+        'content': resultado.errors,
+        'message': 'Cliente_dni ya existe'
+      },status.HTTP_400_BAD_REQUEST)
+    else:
+      return Response({
+        'success':False,
+        'content': resultado.errors,
+        'message': 'Hubo un error al guardar el cliente'
+      },status.HTTP_400_BAD_REQUEST)
+
+# /buscarMascota
+from django.shortcuts import get_object_or_404
+@api_view(['GET'])
+def buscar_mascotas(request):
+  try:
+    if request.query_params.get('dni'):
+      dni = request.query_params.get('dni')
+      cliente = get_object_or_404(ClienteModel, pk =dni)
+      resultado = ClienteMascotaSerializer(instance=cliente)
+      return Response({
+        'success':True,
+        'content': resultado.data
+      })
+  except:
+    return Response({'success':False})
+    
+
+  
+
+
+    
+
+

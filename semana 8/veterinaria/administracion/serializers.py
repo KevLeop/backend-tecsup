@@ -1,5 +1,6 @@
+from django.db.models.aggregates import Count
 from rest_framework import serializers
-from .models import EspecieModel, MascotaModel, RazaModel
+from .models import ClienteModel, EspecieModel, MascotaModel, RazaModel
 
   
 
@@ -54,3 +55,36 @@ class MascotaSerializer(serializers.ModelSerializer):
   class Meta:
     model=MascotaModel
     fields='__all__'
+
+
+
+class ClienteSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ClienteModel
+    fields = '__all__'
+
+class RegistroClienteSerializer(serializers.Serializer):
+  dni = serializers.CharField(max_length=9, required=True, min_length=8)
+  email = serializers.EmailField(max_length=45,trim_whitespace=True)
+  telefono = serializers.CharField(max_length = 10, min_length=4)
+  direccion = serializers.CharField(max_length=90)
+
+### Relacionado con el ejercicio
+class RazaSerializer(serializers.ModelSerializer):
+  class Meta:
+    model= RazaModel
+    fields='__all__'
+
+
+class MascotaRazaSerializer(serializers.ModelSerializer):
+  raza = RazaSerializer()
+  class Meta:
+    model=MascotaModel
+    fields='__all__'
+
+
+class ClienteMascotaSerializer(serializers.ModelSerializer):
+  mascotas = MascotaRazaSerializer(source='mascotasCliente', many=True)
+  class Meta:
+    model = ClienteModel
+    fields = '__all__'

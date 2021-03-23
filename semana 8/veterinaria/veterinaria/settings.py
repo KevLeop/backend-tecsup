@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,24 +76,28 @@ WSGI_APPLICATION = 'veterinaria.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':'j03fkdl9fyuf75fj',
-        # 'NAME': 'veterinaria',
-        # 'USER': 'root',
-        'USER': 'cxaznn6okex8diwz'
-        # 'PASSWORD': 'root',
-        'PASSWORD':'f5sehbqmw2z0swsk'
-        # 'HOST': '127.0.0.1',
-        'HOST':'u6354r3es4optspf.cbetxkdyhwsb.us-east-1.rds.amazonaws.com	'
-        'PORT': '3306'
-
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.db',
-    }
+DATABASES={}
+if os.environ.get("JAWS_URL"):
+    DEBUG=False
+    DATABASES ['default']= {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME':'j03fkdl9fyuf75fj',
+            'USER': 'cxaznn6okex8diwz',
+            'PASSWORD':'f5sehbqmw2z0swsk',
+            'HOST':'u6354r3es4optspf.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+            'PORT': '3306'    
 }
+else: 
+    DATABASES ['default']= {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'veterinaria',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': '127.0.0.1',
+            'PORT': '3306'
+        
+}
+
 
 
 # Password validation
