@@ -133,24 +133,6 @@ class PlatoModel(models.Model):
     db_table='t_plato'
     verbose_name='Plato'
   
-class PersonalMesaModel(models.Model):
-  personalId = models.ForeignKey(
-      to=PersonalModel,
-      on_delete=models.CASCADE,
-      related_name='personalMesas',
-      db_column='personal_id'
-  )
-  mesaId = models.ForeignKey(
-      to=MesaModel,
-      on_delete=models.CASCADE,
-      related_name='mesaPersonales',
-      db_column='mesa_id'
-  )
-
-  class Meta:
-      db_table = 't_personal_mesa'
-      verbose_name = 'personal mesa'
-
 class ComprobanteModel(models.Model):
   comprobanteId=models.AutoField(
     primary_key=True,
@@ -230,7 +212,7 @@ class CabeceraComandaModel(models.Model):
   comprobante= models.OneToOneField(
     to=ComprobanteModel,
     on_delete=models.CASCADE,
-    null=False,
+    null=True,
     db_column='comprobante_id'
   )
 
@@ -256,13 +238,15 @@ class DetalleComandaModel(models.Model):
       to=PlatoModel,
       db_column='plato_id',
       on_delete=models.PROTECT,
-      null=False
+      null=False,
+      related_name='platoDetalles'
   )
   cabecera = models.ForeignKey(
       to=CabeceraComandaModel,
       db_column='cabecera_id',
       on_delete=models.PROTECT,
-      null=False
+      null=False,
+      related_name='cabeceraDetalles'
   )
 
   class Meta:

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
+    'corsheaders',
     'restaurante',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,3 +135,21 @@ AUTH_USER_MODEL='restaurante.PersonalModel'
 MEDIA_URL = '/media/'
 # para mostrar el archivo multimedia mediante una url
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# HABILITAMOS LOS CORS
+CORS_ALLOW_ALL_ORIGINS = True
+
+# para modificar configuraciones de Django-rest-framework se hace 
+# mediante la variable REST_FRAMEWORK
+REST_FRAMEWORK= {
+    'DEFAULT_AUTHENTICATION_CLASSES' : (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'USER_ID_FIELD':'personalId', #para indicar la PK  de nuestra tabla user, si es que la hemos cambiado
+    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=5),
+    'ALGORITHM': 'HS256',
+    'AUTH_HEADER_TYPES':('Bearer',)
+}
