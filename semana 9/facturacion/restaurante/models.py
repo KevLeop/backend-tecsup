@@ -199,7 +199,8 @@ class CabeceraComandaModel(models.Model):
     to=PersonalModel,
     on_delete=models.PROTECT,
     null=False,
-    db_column='mozo_id'
+    db_column='mozo_id',
+    related_name='mozoCabeceras'
   )
 
   mesa = models.ForeignKey(

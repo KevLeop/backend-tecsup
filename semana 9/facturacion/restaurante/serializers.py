@@ -79,7 +79,17 @@ class MostrarPedidoSerializer(serializers.ModelSerializer):
         model = CabeceraComandaModel
         fields = '__all__'
 
+class MozoMesasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CabeceraComandaModel
+        fields =["mesa"]
+        # fields = '__all__'
+
+
 class PersonalSerializer(serializers.ModelSerializer):
+    mesasMozo = MozoMesasSerializer(source="mozoCabeceras",many=True)
     class Meta:
         model = PersonalModel
-        fields = '__all__'
+        fields = ["personalId","personalCorreo",
+                "personalTipo","personalNombre",
+                "personalApellido", "mesasMozo"]

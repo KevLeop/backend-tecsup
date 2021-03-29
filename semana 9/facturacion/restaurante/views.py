@@ -186,6 +186,7 @@ class NotaPedidoController(generics.CreateAPIView):
 class MozoMesasController(generics.ListAPIView):
   queryset = PersonalModel.objects.all()
   serializer_class = PersonalSerializer
+  permission_classes=[IsAuthenticated, soloMozos]
   def get_queryset(self, id):
     return PersonalModel.objects.get(personalId = id)
   
