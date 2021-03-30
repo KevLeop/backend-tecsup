@@ -1,3 +1,5 @@
+from django.db.models.fields import CharField, EmailField
+from rest_framework.fields import ChoiceField, MultipleChoiceField
 from .models import *
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -79,17 +81,26 @@ class MostrarPedidoSerializer(serializers.ModelSerializer):
         model = CabeceraComandaModel
         fields = '__all__'
 
-class MozoMesasSerializer(serializers.ModelSerializer):
+class CabeceraNotaSerializer(serializers.ModelSerializer):
+    mesa = MesaSerializer()
     class Meta:
-        model = CabeceraComandaModel
-        fields =["mesa"]
-        # fields = '__all__'
+        model= CabeceraComandaModel
+        fields= ['mesa']
 
-
-class PersonalSerializer(serializers.ModelSerializer):
-    mesasMozo = MozoMesasSerializer(source="mozoCabeceras",many=True)
+class MostrarMesasMozoSerializer(serializers.ModelSerializer):
+    pedidos = CabeceraNotaSerializer(source='mozoCabeceras',many=True)
     class Meta:
         model = PersonalModel
-        fields = ["personalId","personalCorreo",
-                "personalTipo","personalNombre",
-                "personalApellido", "mesasMozo"]
+        fields = '__all__'
+
+class GenerarComprobanteSerializer(serializers.Serializer):
+    tipo_comprobante =ChoiceField(choices= ['BOLETA','FACTURA'])
+    cliente_tipo_documento= ChoiceField(choices=['DNI','RUC'])
+    cliente_documento = CharField(
+        max_length=11,
+        # min_length=8,
+        # trim_whitespace=True,
+    )
+    cliente_email = EmailField()
+    observaciones=CharField(max_length=60)
+

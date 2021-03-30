@@ -144,7 +144,8 @@ class ComprobanteModel(models.Model):
     max_length=4,
     db_column='comprobante_serie'
   )
-
+  TIPO_COMPROBANTE = [(1,'BOLETA'),(2,'FACTURA')]
+  comprobanteTipo = models.IntegerField(choices=TIPO_COMPROBANTE)
   comprobanteNumero = models.IntegerField(
     db_column='comprobante_numero'
   )
@@ -208,6 +209,7 @@ class CabeceraComandaModel(models.Model):
     on_delete=models.PROTECT,
     null=False,
     db_column='mesa_id',
+    related_name='mesasCabeceras'
   )
 
   comprobante= models.OneToOneField(

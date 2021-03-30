@@ -11,6 +11,7 @@ urlpatterns = [
   path('login_custom', CustomPayloadController.as_view()),
   path('mesa', MesaController.as_view()),
   path('notapedido', NotaPedidoController.as_view()),
-  path('mozo/mesas/<int:id>', MozoMesasController.as_view())
+  path('mozo/mesas', MostrarMesasMozoController.as_view()),
+  path('comprobante/<int:id_comanda>',GenerarComprobantePagoController.as_view())
 
 ]

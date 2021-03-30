@@ -1,4 +1,5 @@
 from rest_framework import generics, status
+from rest_framework import permissions
 from .serializers import *
 from rest_framework.response import Response
 from uuid import uuid4
@@ -183,18 +184,42 @@ class NotaPedidoController(generics.CreateAPIView):
 
     })
 
-class MozoMesasController(generics.ListAPIView):
+
+class MostrarMesasMozoController(generics.ListAPIView):
   queryset = PersonalModel.objects.all()
-  serializer_class = PersonalSerializer
-  permission_classes=[IsAuthenticated, soloMozos]
-  def get_queryset(self, id):
-    return PersonalModel.objects.get(personalId = id)
-  
-  def get(self,request,id):
-    resultado = self.serializer_class(instance=self.get_queryset(id))
+  serializer_class = MostrarMesasMozoSerializer
+  permission_classes = [IsAuthenticated,soloMozos]
+
+  def get(self,request):
+    print(request.user)
+    resultado = self.serializer_class(instance=request.user)
     return Response({
       'success':True,
-      'content': resultado.data,
-      'message': None
+      'content':resultado.data
     })
+
+class GenerarComprobantePagoController(generics.CreateAPIView):
+  serializer_class= GenerarComprobanteSerializer
+  queryset = CabeceraComandaModel.objects.all()
+  def get_queryset(self,id):
+    return self.queryset.filter(cabeceraId=id).first()
+
+  def post (self,request, id_comanda):
+    respuesta = self.serializer_class(data =request.data)
+    if respuesta.is_valid():
+      pedido = self.get_queryset(id_comanda)
+      return Response({
+        'success':True,
+      })
+    else:
+      return Response({
+        'success':False,
+        'content':respuesta.errors
+      })
+
+
+
+
+
+
 
