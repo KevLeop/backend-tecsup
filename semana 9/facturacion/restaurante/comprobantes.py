@@ -1,5 +1,5 @@
 import requests # libreria para consumir apis de terceros
-from datetime import datetime
+from datetime import date, datetime
 from .models import CabeceraComandaModel, ComprobanteModel, DetalleComandaModel
 
 def emitirComprobante(pedido,cabecera_id):
@@ -8,39 +8,41 @@ def emitirComprobante(pedido,cabecera_id):
   cliente_denominacion = ""
   documento = 0 # el numero de documento que toca crear
   # 6 => RUC, 1=>DNI, -=>varios
-
   cliente_documento = pedido['cliente_documento']
   cliente_tipo_documento = pedido['cliente_tipo_documento']
+  cliente_email=pedido['cliente_email']
+  observaciones =pedido['observaciones']
   tipo_comprobante = pedido['tipo_comprobante']
-  pedido = CabeceraComandaModel.objects.get(cabeceraId = cabecera_id).first()
+  comanda = CabeceraComandaModel.objects.get(cabeceraId = cabecera_id)
   # sacamos el total del pedido
-  total = float(pedido.cabeceraTotal)
+  total = float(comanda.cabeceraTotal)
   # el valor total sin el IGV
-  total_gravada = float(pedido.CabeceraTotal)
+  total_gravada =  total / 1.18
   # el valor total del IGV de la compra
   total_igv = total - total_gravada
 
-  if len(pedido['cliente_documento']>0):
+  if len(pedido['cliente_documento'])>0:
     # significa que el pedido fue mayor a 700 soles
     # o el cliente dio su DNI para la compra
-    base_url_apiperu="https://apiperu.dev/api"
+    base_url_apiperu="https://apiperu.dev/api/"
     if cliente_tipo_documento == "RUC":
-      base_url_apiperu = base_url_apiperu+'ruc/{}'.format(cliente.documento)
+      base_url_apiperu = base_url_apiperu+'ruc/{}'.format(cliente_documento)
     elif cliente_tipo_documento == "DNI":
-      base_url_apiperu = base_url_apiperu+'dni/{}'.format(cliente.documento)
+      base_url_apiperu = base_url_apiperu+'dni/{}'.format(cliente_documento)
     headers = {
       "Authorization":"Bearer 9fafa0b641569e2cbb47b2a6fd4ab4081489a884ca32bd45ef8b8f658ea82b48",
       "Content-Type": "application/json"
     }
     respuestaApiPeru = requests.get(url=base_url_apiperu, headers=headers)
-
+    #print(respuestaApiPeru.json())
+    print(base_url_apiperu)
     if cliente_tipo_documento == 'RUC':
       documento = 6
       cliente_denominacion = respuestaApiPeru.json()['data']['nombre_o_razon_social']
     elif cliente_tipo_documento =='DNI':
       documento = 1
       cliente_denominacion = respuestaApiPeru.json()['data']['nombre_completo']
-
+    print(cliente_denominacion)
   else:
     if total > 700 :
       return {
@@ -56,7 +58,7 @@ def emitirComprobante(pedido,cabecera_id):
 
   items =[]
   # me retorna todo el detalle de un pedido
-  for detalle in pedido.cabeceraDetalles.all():
+  for detalle in comanda.cabeceraDetalles.all():
     precio_unitario = float(detalle.plato.platoPrecio)
     valor_unitario = precio_unitario /1.18  # sin IGV
     cantidad = detalle.detalleCantidad
@@ -91,7 +93,36 @@ def emitirComprobante(pedido,cabecera_id):
     numero = ultimoComprobante.comprobanteNumero+1
 
   comprobante_body={
-    
+    "operacion": "generar_comprobante",
+    "tipo_de_comprobante": tipo_comprobante,
+    "serie":serie,
+    "numero":numero,
+    "sunat_transaction":1,
+    "cliente_tipo_de_documento": documento,
+    "cliente_numero_de_documento": cliente_documento,
+    "cliente_denominacion":cliente_denominacion,
+    "cliente_direccion":"",
+    "cliente_email": cliente_email,
+    "fecha_de_emision": datetime.now().strftime("%d-%m-Y"),
+    "moneda": 1,
+    "porcentaje_de_igv": 18.00,
+    "total_gravada":total_gravada,
+    "total_igv":total_igv,
+    "total":total,
+    "detraccion":False,
+    "observaciones": observaciones,
+    "enviar_automaticamente_a_la_sunat":True,
+    "enviar_automaticamente_al_cliente":True,
+    "medio_de_pago":"EFECTIVO",
+    "formato_de_pdf":"A4",
+    "items":items
   }
-
+  print(comprobante_body)
+  url_nubefact = "https://api.nubefact.com/api/v1/d17e060b-aa50-422b-9070-33c02136d62c"
+  headers_nubefact={
+    'Authorization': "0a5de4901def410c9eeff819d3bdc30e93b7119721bd44c284b7b7b921f2234b",
+    'Content-Type':"application/json"
+  }
+  respuestaNubeFact = requests.post(url=url_nubefact, json=comprobante_body, headers=headers_nubefact)
+  return respuestaNubeFact.json()
 

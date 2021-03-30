@@ -94,13 +94,9 @@ class MostrarMesasMozoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class GenerarComprobanteSerializer(serializers.Serializer):
-    tipo_comprobante =ChoiceField(choices= ['BOLETA','FACTURA'])
-    cliente_tipo_documento= ChoiceField(choices=['DNI','RUC'])
-    cliente_documento = CharField(
-        max_length=11,
-        # min_length=8,
-        # trim_whitespace=True,
-    )
-    cliente_email = EmailField()
-    observaciones=CharField(max_length=60)
+    tipo_comprobante = serializers.ChoiceField(choices= ['BOLETA','FACTURA'])
+    cliente_tipo_documento= serializers.ChoiceField(choices=['DNI','RUC'])
+    cliente_documento = serializers.CharField(max_length=11)
+    cliente_email = serializers.EmailField()
+    observaciones= serializers.CharField(max_length=60)
 
