@@ -34,15 +34,15 @@ def emitirComprobante(pedido,cabecera_id):
       "Content-Type": "application/json"
     }
     respuestaApiPeru = requests.get(url=base_url_apiperu, headers=headers)
-    #print(respuestaApiPeru.json())
-    print(base_url_apiperu)
+    ##print(respuestaApiPeru.json())
+    #print(base_url_apiperu)
     if cliente_tipo_documento == 'RUC':
       documento = 6
       cliente_denominacion = respuestaApiPeru.json()['data']['nombre_o_razon_social']
     elif cliente_tipo_documento =='DNI':
       documento = 1
       cliente_denominacion = respuestaApiPeru.json()['data']['nombre_completo']
-    print(cliente_denominacion)
+    #print(cliente_denominacion)
   else:
     if total > 700 :
       return {
@@ -59,9 +59,11 @@ def emitirComprobante(pedido,cabecera_id):
   items =[]
   # me retorna todo el detalle de un pedido
   for detalle in comanda.cabeceraDetalles.all():
-    precio_unitario = float(detalle.plato.platoPrecio)
+    precio_unitario = float(detalle.detalleSubtotal)
     valor_unitario = precio_unitario /1.18  # sin IGV
     cantidad = detalle.detalleCantidad
+    print(precio_unitario)
+    print(valor_unitario)
     item = {
       'unidad_de_medida':"NIU",
       'codigo':detalle.plato.platoId,
@@ -82,11 +84,13 @@ def emitirComprobante(pedido,cabecera_id):
   serie = ""
   ultimoComprobante = None
   if tipo_comprobante=='BOLETA':
-    serie="BOO1" # traer el ultimo omprobante boleta
-    ultimoComprobante = ComprobanteModel.objects.filter(comprobanteTipo=1).order_by('-comprobanteNumero').first()
-  elif tipo_comprobante=='FACTURA':
-    serie='F001'
+    tipo_comprobante=2
+    serie="BBB1" # traer el ultimo omprobante boleta
     ultimoComprobante = ComprobanteModel.objects.filter(comprobanteTipo=2).order_by('-comprobanteNumero').first()
+  elif tipo_comprobante=='FACTURA':
+    tipo_comprobante=1
+    serie='FFF1'
+    ultimoComprobante = ComprobanteModel.objects.filter(comprobanteTipo=1).order_by('-comprobanteNumero').first()
   if ultimoComprobante is None:
     numero = 1
   elif ultimoComprobante is not None:
@@ -103,7 +107,7 @@ def emitirComprobante(pedido,cabecera_id):
     "cliente_denominacion":cliente_denominacion,
     "cliente_direccion":"",
     "cliente_email": cliente_email,
-    "fecha_de_emision": datetime.now().strftime("%d-%m-Y"),
+    "fecha_de_emision": datetime.now().strftime("%d-%m-%Y"),
     "moneda": 1,
     "porcentaje_de_igv": 18.00,
     "total_gravada":total_gravada,
@@ -117,12 +121,28 @@ def emitirComprobante(pedido,cabecera_id):
     "formato_de_pdf":"A4",
     "items":items
   }
-  print(comprobante_body)
+  #print(comprobante_body)
   url_nubefact = "https://api.nubefact.com/api/v1/d17e060b-aa50-422b-9070-33c02136d62c"
   headers_nubefact={
     'Authorization': "0a5de4901def410c9eeff819d3bdc30e93b7119721bd44c284b7b7b921f2234b",
     'Content-Type':"application/json"
   }
   respuestaNubeFact = requests.post(url=url_nubefact, json=comprobante_body, headers=headers_nubefact)
-  return respuestaNubeFact.json()
+  json = respuestaNubeFact.json()
+  if json.get('errors'):
+    return json
+  else:
+
+    nuevoComprobante = ComprobanteModel.objects.create( 
+      comprobanteSerie = serie,
+      comprobanteNumero = numero,
+      comprobantePdf= json['enlace_del_pdf'],
+      comprobanteCdr=json['enlace_del_cdr'],
+      comprobanteXml=json['enlace_del_xml'],
+      comprobanteRuc = cliente_documento,
+      comprobanteTipo = tipo_comprobante
+    )
+    comanda.comprobante = nuevoComprobante
+    comanda.save()
+    return respuestaNubeFact.json()
 

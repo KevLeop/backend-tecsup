@@ -149,7 +149,7 @@ REST_FRAMEWORK= {
 
 SIMPLE_JWT = {
     'USER_ID_FIELD':'personalId', #para indicar la PK  de nuestra tabla user, si es que la hemos cambiado
-    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME':timedelta(minutes=15),
     'ALGORITHM': 'HS256',
     'AUTH_HEADER_TYPES':('Bearer',)
 }

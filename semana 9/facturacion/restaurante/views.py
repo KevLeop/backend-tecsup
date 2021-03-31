@@ -176,6 +176,11 @@ class NotaPedidoController(generics.CreateAPIView):
       # restar la cantidad vendida de los platos
       objPlato.platoCantidad -= det['cantidad']
       objPlato.save()
+
+      nuevaCabecera.cabeceraTotal = nuevaCabecera.cabeceraTotal + (det['cantidad']*det['subtotal'])
+      nuevaCabecera.save()
+
+
     resultado = MostrarPedidoSerializer(instance=nuevaCabecera)
 
     return Response({
@@ -209,10 +214,19 @@ class GenerarComprobantePagoController(generics.CreateAPIView):
     respuesta = self.serializer_class(data =request.data)
     if respuesta.is_valid():
       pedido = self.get_queryset(id_comanda)
-      emitirComprobante(respuesta.validated_data,id_comanda )
-      return Response({
-        'success':True,
-      })
+      if pedido.comprobante:
+        return Response({
+          'success':False,
+          'content': ComprobanteSerializer(instance=pedido.comprobante).data,
+          'message':'Ya existe comprobante con la nota de pedido {}'.format(id_comanda)
+        })
+      else:
+        resultadoComprobante = emitirComprobante(respuesta.validated_data,id_comanda )
+        return Response({
+          'success':True,
+          'content': resultadoComprobante
+        })
+
     else:
       return Response({ 
         'success':False,

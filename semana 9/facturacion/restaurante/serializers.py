@@ -1,5 +1,3 @@
-from django.db.models.fields import CharField, EmailField
-from rest_framework.fields import ChoiceField, MultipleChoiceField
 from .models import *
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -100,3 +98,7 @@ class GenerarComprobanteSerializer(serializers.Serializer):
     cliente_email = serializers.EmailField()
     observaciones= serializers.CharField(max_length=60)
 
+class ComprobanteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComprobanteModel
+        fields = '__all__'
