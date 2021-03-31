@@ -80,12 +80,20 @@ WSGI_APPLICATION = 'facturacion.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'facturacion',
+    #     'USER': 'root',
+    #     'PASSWORD': 'root',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306'
+    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'facturacion',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'NAME': 'fbou2q3rxfcuulfl',
+        'USER': 'fta3e9o1de8vz6f9',
+        'PASSWORD': 'g4m35rurivl6jvyf',
+        'HOST': 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
         'PORT': '3306'
     }
 }
@@ -151,5 +159,8 @@ SIMPLE_JWT = {
     'USER_ID_FIELD':'personalId', #para indicar la PK  de nuestra tabla user, si es que la hemos cambiado
     'ACCESS_TOKEN_LIFETIME':timedelta(minutes=15),
     'ALGORITHM': 'HS256',
-    'AUTH_HEADER_TYPES':('Bearer',)
+    'AUTH_HEADER_TYPES':('Bearer',),
+    'REFRESH_TOKEN_LIFETIME':timedelta(days=1)
 }
+
+STATIC_ROOT = BASE_DIR / 'assets/'
