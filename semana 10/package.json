@@ -1,0 +1,8 @@
+{
+  "name": "plataforma-educativa",
+  "version": "1.0.0",
+  "description": "Proyecto en express con mongodb",
+  "main": "index.js",
+  "author": "Kevin Valverde",
+  "license": "MIT"
+}
