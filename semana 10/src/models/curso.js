@@ -48,4 +48,10 @@ const cursoSchema = new Schema({
     type: Schema.Types.Decimal128,
     min: 0,
   },
+  usuarios: [Schema.Types.ObjectId],
+  comentarios: [Schema.Types.ObjectId],
 });
+
+module.exports = {
+  cursoSchema,
+};

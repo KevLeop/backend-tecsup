@@ -39,6 +39,8 @@ const usuarioSchema = new Schema(
     },
     usuario_telefono: [telefonoSchema],
     usuario_imagen: imagenSchema,
+    cursos: [Schema.Types.ObjectId],
+    comentarios: [Schema.Types.ObjectId],
   },
   {
     timestamps: {
