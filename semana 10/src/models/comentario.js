@@ -8,10 +8,12 @@ const comentarioSchema = new Schema({
   },
   usuario: {
     type: Schema.Types.ObjectId,
-    required=true
+    required: true,
   },
   curso: {
     type: Schema.Types.ObjectId,
-    required: true
-  }
+    required: true,
+  },
 });
+
+module.exports = comentarioSchema;

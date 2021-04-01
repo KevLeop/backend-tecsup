@@ -1,11 +1,16 @@
 const express = require("express");
 const { json } = require("body-parser");
 const mongoose = require("mongoose");
+const curso_router = require("../routes/curso");
 
 module.exports = class Server {
   constructor() {
     this.app = express();
     this.puerto = process.env.PORT || 5000;
+    this.CORS();
+    this.bodyParser();
+    this.rutas();
+    this.conectarMongoDb();
   }
   CORS() {
     this.app.use((req, res, next) => {
@@ -28,6 +33,7 @@ module.exports = class Server {
         })
         .end();
     });
+    this.app.use(curso_router);
   }
   async conectarMongoDb() {
     await mongoose

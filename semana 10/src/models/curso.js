@@ -1,6 +1,7 @@
 const { Schema } = require("mongoose");
-
-const fechaPeruana = moment.tz(Date.now(), "America/Latina");
+const moment = require("moment-timezone");
+const { imagenSchema } = require("./imagen");
+const fechaPeruana = moment.tz(Date.now(), "America/Lima");
 
 const contenidoSchema = new Schema(
   {
@@ -34,7 +35,7 @@ const cursoSchema = new Schema({
   curso_fecha_lanzamiento: {
     type: Date,
     min: "2021-01-01",
-    max: "2021-03-31",
+    max: "2021-03-31 23:59",
     default: fechaPeruana,
   },
   curso_imagenes: [imagenSchema],
