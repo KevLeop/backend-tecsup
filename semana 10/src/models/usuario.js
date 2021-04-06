@@ -29,7 +29,7 @@ const usuarioSchema = new Schema(
     usuario_email: {
       type: String,
       maxlength: 50,
-      minlength: 25,
+      minlength: 10,
       unique: true,
     },
     usuario_password: String,

@@ -3,7 +3,7 @@ const { Usuario } = require("../config/mongoose");
 const registro = async (req, res) => {
   const objUsuario = new Usuario(req.body);
   objUsuario.encriptarPassword(req.body.password);
-  const usuarioCreado = objUsuario.save().catch((error) => {
+  const usuarioCreado = await objUsuario.save().catch((error) => {
     res.status(500).json({
       success: false,
       content: error,
