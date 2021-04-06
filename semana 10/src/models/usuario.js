@@ -1,6 +1,8 @@
 const { Schema } = require("mongoose");
 const { imagenSchema } = require("./imagen");
-const { hashSync } = require("bcrypt");
+const { hashSync, compareSync } = require("bcrypt");
+const { sign } = require("jsonwebtoken");
+require("dotenv").config();
 
 const telefonoSchema = new Schema({
   fono_codigo: {
@@ -54,6 +56,19 @@ const usuarioSchema = new Schema(
 usuarioSchema.methods.encriptarPassword = async function (password) {
   this.usuario_password = hashSync(password, 10);
 };
+
+usuarioSchema.methods.validarPassword = function (password) {
+  return compareSync(password, this.usuario_password);
+};
+
+usuarioSchema.methods.generarJWT = function () {
+  const payload = {
+    usuario_id: this._id,
+  };
+  const password = process.env.JWT_SECRET;
+  return sign(payload, password, { expiresIn: "1h" }, { algorithm: "RS256" });
+};
+
 module.exports = {
   usuarioSchema,
 };
