@@ -1,5 +1,6 @@
 const { Usuario } = require("../config/mongoose");
 const { Curso } = require("../config/mongoose");
+const { subirArchivo } = require("../utils/manejadorFirebaseStorage");
 
 const registro = async (req, res) => {
   const objUsuario = new Usuario(req.body);
@@ -126,9 +127,34 @@ const mostrarCursosUsuario = async (req, res) => {
   });
 };
 
+const editarUsuario = async (req, res) => {
+  const { usuario_id } = req.usuario;
+  const link = await subirArchivo(req.file).catch((error) =>
+    res.json({
+      success: false,
+      content: error,
+      message: "Error al subir la imagen",
+    })
+  );
+  if (link) {
+    req.body.usuario_imagen = { imagen_url: link };
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(
+      usuario_id,
+      req.body,
+      { new: true }
+    );
+    return res.json({
+      success: true,
+      content: usuarioActualizado,
+      message: null,
+    });
+  }
+};
+
 module.exports = {
   registro,
   login,
   inscribirCurso,
   mostrarCursosUsuario,
+  editarUsuario,
 };
