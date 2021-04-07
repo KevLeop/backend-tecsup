@@ -61,35 +61,74 @@ const inscribirCurso = async (req, res) => {
    * 4. si no esta inscrito, inscribirlo
    */
 
-  const { id } = req.query;
+  const curso_id = req.query.id;
   const { usuario_id } = req.usuario;
-  const cursoEncontrado = await Curso.findById(id).catch((error) => {
+
+  const cursoEncontrado = await Curso.findById(curso_id).catch((error) => {
+    console.log(error);
     res.status(404).json({
       success: false,
       content: error,
       message: "No se encontro el curso",
     });
   });
-
+  console.log(cursoEncontrado);
   if (cursoEncontrado) {
-    const { cursos } = await Usuario.findById(usuario_id);
-    for (const key in cursos) {
-      if (cursos[key] === id) {
-        return res.json({
-          success: false,
-          content: null,
-          message: "Usuario ya se encuentra registrado en el curso",
-        });
-      }
+    const usuarioEncontrado = await Usuario.findById(usuario_id);
+    const resultado = usuarioEncontrado.cursos.includes(curso_id);
+    const resultadoCurso = cursoEncontrado.usuarios.includes(usuario_id);
+
+    if (resultado && resultadoCurso) {
+      return res.status(401).json({
+        success: false,
+        content: null,
+        message: "Usuario ya se encuentra registrado en el curso",
+      });
     }
-    console.log(req.usuario);
-    res.send("ok");
-    console.log(cursoEncontrado);
+    usuarioEncontrado.cursos.push(curso_id);
+    usuarioEncontrado.save();
+
+    cursoEncontrado.usuarios.push(usuario_id);
+    cursoEncontrado.save();
+
+    return res.status(201).json({
+      success: true,
+      content: usuarioEncontrado,
+      message: "Usuario enrolado exitosamente",
+    });
+  } else {
+    return res.status(404).json({
+      success: false,
+      content: null,
+      message: "No se encontro el curso",
+    });
   }
+};
+
+// mostrar los cursos del usuario
+const mostrarCursosUsuario = async (req, res) => {
+  const { usuario_id } = req.usuario;
+  const { cursos } = await Usuario.findById(usuario_id);
+  console.log(cursos);
+  let resultado;
+  resultado = await Promise.all(
+    cursos.map((curso) =>
+      Curso.findById(
+        curso,
+        "curso_nombre curso_descripcion curso_link curso_imagenes"
+      )
+    )
+  );
+  return res.json({
+    success: true,
+    content: resultado,
+    message: "ok",
+  });
 };
 
 module.exports = {
   registro,
   login,
   inscribirCurso,
+  mostrarCursosUsuario,
 };
