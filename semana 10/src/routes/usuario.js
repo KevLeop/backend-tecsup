@@ -34,4 +34,8 @@ usuario_router.post(
   usuario_controller.cambiarPassword
 );
 
+usuario_router.post("/reset-password", usuario_controller.resetPassword);
+usuario_router.get("/validar-hash", usuario_controller.consultarHash);
+usuario_router.post("/new-password", usuario_controller.changePassword);
+
 module.exports = usuario_router;

@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { AES } = require("crypto-js");
+const { AES, enc } = require("crypto-js");
 const { Usuario } = require("../config/mongoose");
 const { Curso } = require("../config/mongoose");
 const { subirArchivo } = require("../utils/manejadorFirebaseStorage");
@@ -178,7 +178,7 @@ const cambiarPassword = async (req, res) => {
   }
 };
 
-const resetPassword = async () => {
+const resetPassword = async (req, res) => {
   const fechaVencimiento = new Date().setHours(1).toString(); // una hora despues de la hora actual
   const hash = AES.encrypt(fechaVencimiento, process.env.PASSWORD);
   const { email } = req.body;
@@ -196,8 +196,8 @@ const resetPassword = async () => {
     const cuerpoCorreo = `Hola ${usuarioEncontrado.usuario_nombre}, has solicitado el cambio de tu password, tu hash es:${hash}`;
     const resultado = await enviarCorreo(
       usuarioEncontrado.usuario_email,
-      "ResetearPassword",
-      cuerpo
+      "Resetear Password",
+      cuerpoCorreo
     );
     return res.status(201).json({
       success: true,
@@ -213,6 +213,64 @@ const resetPassword = async () => {
   }
 };
 
+const consultarHash = async (req, res) => {
+  const { hash } = req.query;
+  const usuarioEncontrado = await Usuario.where({
+    usuario_password_recovery: hash,
+  });
+  if (!usuarioEncontrado) {
+    return res.status(404).json({
+      success: false,
+      content: null,
+      message: "hash incorrecto",
+    });
+  }
+  const bytes = AES.decrypt(hash, process.env.PASSWORD);
+  const horaOriginal = +bytes.toString(enc.Utf8);
+  const horaActual = new Date().setHours(0);
+  console.log("Hora ORIGINAL:");
+  console.log(new Date(horaOriginal));
+  console.log("Hora ACTUAL:");
+  console.log(new Date(horaActual));
+  // const tiempoRestante = Math.abs(horaOriginal - horaActual);
+  // console.log(tiempoRestante);
+  if (horaActual < horaOriginal) {
+    console.log("AUN HAY TIEMPO");
+    return res.json({
+      success: true,
+      content: true,
+      message: `Queda `,
+    });
+  } else {
+    console.log("No hay tiempo");
+    res.json({
+      success: false,
+      content: false,
+      message: "Se agotó el tiempo de espera",
+    });
+  }
+
+  res.send("ok");
+};
+
+const changePassword = async (req, res) => {
+  const { hash, newPassword } = req.body;
+  const usuarioEncontrado = await Usuario.findOne({
+    usuario_password_recovery: hash,
+  });
+  if (!usuarioEncontrado) {
+    return res.status(500).json({
+      success: false,
+    });
+  }
+  usuarioEncontrado.encriptarPassword(newPassword);
+  usuarioEncontrado.usuario_password_recovery = "";
+  usuarioEncontrado.save();
+  return res.json({
+    success: true,
+  });
+};
+
 module.exports = {
   registro,
   login,
@@ -220,4 +278,7 @@ module.exports = {
   mostrarCursosUsuario,
   editarUsuario,
   cambiarPassword,
+  resetPassword,
+  consultarHash,
+  changePassword,
 };

@@ -4,8 +4,8 @@ const clienteCorreo = nodeMailer.createTransport({
   port: 587,
   secure: false, // será true cuando el puerto sea el 465
   auth: {
-    user: "kvalverde@unsa.edu.pe",
-    pass: "TheStrokes",
+    user: "", // correo fuente,
+    pass: "", // contraseña de correo fuente,
   },
   tls: {
     rejectUnauthorized: false,
