@@ -45,6 +45,7 @@ module.exports = class Server {
         useUnifiedTopology: true, // para indicar que vamos a usar un nuevo motor de administracion de conecciones,
         // solamente indicar false cuando la conexion sea poco estable
         useCreateIndex: true,
+        useFindAndModify: false,
       })
       .catch((e) => console.errors(e));
     console.log("Base de datos conectada exitosamente");

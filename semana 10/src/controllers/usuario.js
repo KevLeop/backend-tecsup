@@ -1,6 +1,9 @@
+require("dotenv").config();
+const { AES } = require("crypto-js");
 const { Usuario } = require("../config/mongoose");
 const { Curso } = require("../config/mongoose");
 const { subirArchivo } = require("../utils/manejadorFirebaseStorage");
+const { enviarCorreo } = require("../utils/manejadorCorreo");
 
 const registro = async (req, res) => {
   const objUsuario = new Usuario(req.body);
@@ -47,7 +50,7 @@ const login = async (req, res) => {
   } else {
     res.status(500).json({
       success: false,
-      content: error,
+      content: null,
       message: "Constraseña incorrecta",
     });
   }
@@ -137,7 +140,9 @@ const editarUsuario = async (req, res) => {
     })
   );
   if (link) {
-    req.body.usuario_imagen = { imagen_url: link };
+    if (req.body.password) delete req.body[usuario_password];
+
+    req.body.usuario_imagen = { imagen_url: link[0] };
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
       usuario_id,
       req.body,
@@ -151,10 +156,66 @@ const editarUsuario = async (req, res) => {
   }
 };
 
+const cambiarPassword = async (req, res) => {
+  const { usuario_id } = req.usuario;
+  const { newPassword, oldPassword } = req.body;
+  const usuarioEncontrado = await Usuario.findById(usuario_id);
+  const resultado = usuarioEncontrado.validarPassword(oldPassword);
+  if (!resultado) {
+    return res.status(400).json({
+      success: true,
+      content: null,
+      message: "Contraseña invalida",
+    });
+  } else {
+    usuarioEncontrado.encriptarPassword(newPassword);
+    usuarioEncontrado.save();
+    return res.status(200).json({
+      success: true,
+      content: usuarioEncontrado,
+      message: "Contraseña actualizada correctamente",
+    });
+  }
+};
+
+const resetPassword = () => {
+  const fechaVencimiento = new Date().setHours(1).toString(); // una hora despues de la hora actual
+  const hash = AES.encrypt(fechaVencimiento, process.env.PASSWORD);
+  const { email } = req.body;
+  try {
+    const usuarioEncontrado =await  Usuario.findOne({ usuario_email: email });
+    if(!usuarioEncontrado){
+      return res.status(404).json({
+        success:false,
+        content:null,
+        message: 'Usuario no encontrado'
+      })
+    }
+    usuarioEncontrado.usuario_password_recovery = hash
+    await usuarioEncontrado.save()
+    const cuerpoCorreo = `Hola ${usuarioEncontrado.usuario_nombre}, has solicitado el cambio de tu password, tu hash es:${hash}`
+    const resultado = await enviarCorreo(usuarioEncontrado.usuario_email, 'ResetearPassword', cuerpo)
+    return res.status(201).json({
+      success:true,
+      content: resultado,
+      message: 'Correo enviado exitosamente'
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      content: error,
+      message:'Error!'
+    })
+    
+  }
+
+};
+
 module.exports = {
   registro,
   login,
   inscribirCurso,
   mostrarCursosUsuario,
   editarUsuario,
+  cambiarPassword,
 };
