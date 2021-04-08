@@ -178,37 +178,39 @@ const cambiarPassword = async (req, res) => {
   }
 };
 
-const resetPassword = () => {
+const resetPassword = async () => {
   const fechaVencimiento = new Date().setHours(1).toString(); // una hora despues de la hora actual
   const hash = AES.encrypt(fechaVencimiento, process.env.PASSWORD);
   const { email } = req.body;
   try {
-    const usuarioEncontrado =await  Usuario.findOne({ usuario_email: email });
-    if(!usuarioEncontrado){
+    const usuarioEncontrado = await Usuario.findOne({ usuario_email: email });
+    if (!usuarioEncontrado) {
       return res.status(404).json({
-        success:false,
-        content:null,
-        message: 'Usuario no encontrado'
-      })
+        success: false,
+        content: null,
+        message: "Usuario no encontrado",
+      });
     }
-    usuarioEncontrado.usuario_password_recovery = hash
-    await usuarioEncontrado.save()
-    const cuerpoCorreo = `Hola ${usuarioEncontrado.usuario_nombre}, has solicitado el cambio de tu password, tu hash es:${hash}`
-    const resultado = await enviarCorreo(usuarioEncontrado.usuario_email, 'ResetearPassword', cuerpo)
+    usuarioEncontrado.usuario_password_recovery = hash;
+    await usuarioEncontrado.save();
+    const cuerpoCorreo = `Hola ${usuarioEncontrado.usuario_nombre}, has solicitado el cambio de tu password, tu hash es:${hash}`;
+    const resultado = await enviarCorreo(
+      usuarioEncontrado.usuario_email,
+      "ResetearPassword",
+      cuerpo
+    );
     return res.status(201).json({
-      success:true,
+      success: true,
       content: resultado,
-      message: 'Correo enviado exitosamente'
-    })
+      message: "Correo enviado exitosamente",
+    });
   } catch (error) {
     return res.status(500).json({
-      success:false,
+      success: false,
       content: error,
-      message:'Error!'
-    })
-    
+      message: "Error!",
+    });
   }
-
 };
 
 module.exports = {

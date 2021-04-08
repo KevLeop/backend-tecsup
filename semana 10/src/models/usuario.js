@@ -2,8 +2,6 @@ const { Schema } = require("mongoose");
 const { imagenSchema } = require("./imagen");
 const { hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
-const {AES} = require('crypto-js')
-const {enviarCorreo}=require('../utils/manejadorCorreo')
 
 require("dotenv").config();
 
@@ -43,10 +41,10 @@ const usuarioSchema = new Schema(
       min: 1,
       max: 4,
     },
-    usuario_password_recovery:{
-      type:String,
-      required:false
-    }
+    usuario_password_recovery: {
+      type: String,
+      required: false,
+    },
     usuario_telefono: [telefonoSchema],
     usuario_imagen: imagenSchema,
     cursos: [Schema.Types.ObjectId],
