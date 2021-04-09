@@ -14,6 +14,8 @@ export default class ServidorSocket {
         // methods: ["GET", "POST"],  // Socket no maneja metodos, solo envia y recibe
       },
     });
+    this.escucharSocket();
+    this.rutas();
   }
 
   escucharSocket() {}
