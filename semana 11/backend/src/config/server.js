@@ -18,7 +18,30 @@ export default class ServidorSocket {
     this.rutas();
   }
 
-  escucharSocket() {}
+  escucharSocket() {
+    let usuarios = [];
+    const mensajes = [];
+    this.io.on("connect", (cliente) => {
+      // console.log(cliente);
+      console.log(`Se conecto el cliente ${cliente.id}`);
+      cliente.on("disconnect", (motivo) => {
+        console.log(`Se desconecto el cliente ${cliente.id}`);
+        console.log(motivo);
+        usuarios = usuarios.filter((usuario) => usuario.id !== cliente.id);
+        // cuando hemos retirado al usuario del array, emitimos a todos la lista de usuarios
+        this.io.emit("lista-usuarios", usuarios);
+      });
+
+      cliente.on("configurar-cliente", (nombre) => {
+        console.log(nombre);
+        usuarios.push({
+          id: cliente.id,
+          nombre,
+        });
+        this.io.emit("lista-usuarios", usuarios);
+      });
+    });
+  }
 
   rutas() {
     this.app.get("/", (req, res) => {
