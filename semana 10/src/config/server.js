@@ -5,6 +5,7 @@ const curso_router = require("../routes/curso");
 const usuario_router = require("../routes/usuario");
 const comentario_router = require("../routes/comentario");
 const imagen_router = require("../routes/imagen");
+require("dotenv").config();
 
 module.exports = class Server {
   constructor() {
@@ -39,8 +40,9 @@ module.exports = class Server {
     this.app.use(curso_router, usuario_router, imagen_router);
   }
   async conectarMongoDb() {
+    // "mongodb://localhost:27017/plataforma_educativa"
     await mongoose
-      .connect("mongodb://localhost:27017/plataforma_educativa", {
+      .connect(process.env.MONGO_COMPASS, {
         useNewUrlParser: true, // para indicar que estamos usando el nuevo formato de coneccion url
         useUnifiedTopology: true, // para indicar que vamos a usar un nuevo motor de administracion de conecciones,
         // solamente indicar false cuando la conexion sea poco estable
