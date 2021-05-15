@@ -6,8 +6,8 @@
     "title": "LibreriaFlask",
     "termsOfService": "http://www.google.com",
     "contact": {
-      "name": "Eduardo de Rivero",
-      "email": "ederiveroman@gmail.com"
+      "name": "Kevin Valverde",
+      "email": "kevinleo93@gmail.com"
     },
     "license": {
       "name": "Apache 2.0",
@@ -16,29 +16,18 @@
   },
   "host": "127.0.0.1:5000",
   "basePath": "/",
-  "schemes": [
-    "https",
-    "http"
-  ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "schemes": ["https", "http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/autores": {
       "get": {
         "description": "Ruta que devuelve todos los autores de la base de datos",
         "summary": "Devuelve todos los autores",
-        "tags": [
-          "Autor"
-        ],
+        "tags": ["Autor"],
         "operationId": "/autores",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -50,14 +39,10 @@
       "post": {
         "description": "Ruta para agregar un nuevo autor",
         "summary": "Crea un nuevo autor",
-        "tags": [
-          "Autor"
-        ],
+        "tags": ["Autor"],
         "operationId": "Post/autores",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "Body",
@@ -81,14 +66,10 @@
       "get": {
         "description": "Ruta que devuelve un autor segun su id",
         "summary": "/autor/:id",
-        "tags": [
-          "Autor"
-        ],
+        "tags": ["Autor"],
         "operationId": "/autor/:id",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -109,14 +90,10 @@
       "put": {
         "description": "Ruta para editar un autor",
         "summary": "/autor/:id",
-        "tags": [
-          "Autor"
-        ],
+        "tags": ["Autor"],
         "operationId": "Put/autor/:id",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -146,14 +123,10 @@
       "delete": {
         "description": "Ruta para eliminar un autor segun su id",
         "summary": "/autor/:id1",
-        "tags": [
-          "Autor"
-        ],
+        "tags": ["Autor"],
         "operationId": "/autor/:id1",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -176,14 +149,10 @@
       "get": {
         "description": "Ruta que devuelve todas las categorias",
         "summary": "/categorias",
-        "tags": [
-          "Categoria"
-        ],
+        "tags": ["Categoria"],
         "operationId": "/categorias",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -197,14 +166,10 @@
       "post": {
         "description": "Ruta para agregar una categoria",
         "summary": "/categoria",
-        "tags": [
-          "Categoria"
-        ],
+        "tags": ["Categoria"],
         "operationId": "/categoria",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "Body",
@@ -228,14 +193,10 @@
       "post": {
         "description": "Ruta para crear un nuevo libro",
         "summary": "/libro",
-        "tags": [
-          "Libro"
-        ],
+        "tags": ["Libro"],
         "operationId": "/libro",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "Body",
@@ -259,14 +220,10 @@
       "get": {
         "description": "Metodo que devuelve todos los libros con sus autores y categorias",
         "summary": "/libros",
-        "tags": [
-          "Libro"
-        ],
+        "tags": ["Libro"],
         "operationId": "/libros",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -280,14 +237,10 @@
       "get": {
         "description": "Ruta para hacer la busqueda de un libro mediante su nombre pasandolo como query string",
         "summary": "/buscar",
-        "tags": [
-          "Libro"
-        ],
+        "tags": ["Libro"],
         "operationId": "/buscar",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "palabra",
@@ -309,14 +262,10 @@
       "get": {
         "description": "Ruta para buscar libros mediante su categoria y sede",
         "summary": "/busquedaLibroSedeCat",
-        "tags": [
-          "Libro"
-        ],
+        "tags": ["Libro"],
         "operationId": "/busquedaLibroSedeCat",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "categoria",
@@ -347,14 +296,10 @@
       "post": {
         "description": "Metodo para crear una nueva sede",
         "summary": "/sede",
-        "tags": [
-          "Sede"
-        ],
+        "tags": ["Sede"],
         "operationId": "/sede",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "Body",
@@ -378,14 +323,10 @@
       "get": {
         "description": "Ruta para devolver todas las sedes",
         "summary": "/sedes",
-        "tags": [
-          "Sede"
-        ],
+        "tags": ["Sede"],
         "operationId": "/sedes",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -399,14 +340,10 @@
       "get": {
         "description": "Ruta para devolver todos los libros de una sede",
         "summary": "/sedeLibros/:id",
-        "tags": [
-          "Sede"
-        ],
+        "tags": ["Sede"],
         "operationId": "/sedeLibros/:id",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
@@ -429,14 +366,10 @@
       "post": {
         "description": "Ruta para ingresar las sedes a las cuales esta presente un libro",
         "summary": "/registrarSedesLibro",
-        "tags": [
-          "Sede Libros"
-        ],
+        "tags": ["Sede Libros"],
         "operationId": "/registrarSedesLibro",
         "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "Body",
@@ -466,9 +399,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "autor_nombre"
-      ]
+      "required": ["autor_nombre"]
     },
     "/autor/:idrequest": {
       "title": "/autor/:idrequest",
@@ -478,9 +409,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "autor_nombre"
-      ]
+      "required": ["autor_nombre"]
     },
     "/categoriarequest": {
       "title": "/categoriarequest",
@@ -490,9 +419,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "categoria_descripcion"
-      ]
+      "required": ["categoria_descripcion"]
     },
     "/librorequest": {
       "title": "/librorequest",
@@ -541,11 +468,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "sede_latitud",
-        "sede_longitud",
-        "sede_ubicacion"
-      ]
+      "required": ["sede_latitud", "sede_longitud", "sede_ubicacion"]
     },
     "/registrarSedesLibroRequest": {
       "title": "/registrarSedesLibroRequest",
@@ -562,10 +485,7 @@
           }
         }
       },
-      "required": [
-        "libro_id",
-        "sedes"
-      ]
+      "required": ["libro_id", "sedes"]
     },
     "Sede": {
       "title": "Sede",
@@ -576,9 +496,7 @@
           "format": "int32"
         }
       },
-      "required": [
-        "sede_id"
-      ]
+      "required": ["sede_id"]
     }
   },
   "tags": [
